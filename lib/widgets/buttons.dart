@@ -5,7 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:little_library/config/routes.dart';
 
-import '../theme/colors.dart';
+import 'theme/colors.dart';
 
 Widget chatButton(BuildContext context, Size size) {
   return GestureDetector(
@@ -157,8 +157,8 @@ class TexxtButton extends StatelessWidget {
 }
 
 class PrimaryTextButton extends StatelessWidget {
-  String buttonTitle;
-  PrimaryTextButton({
+  final String buttonTitle;
+  const PrimaryTextButton({
     required this.buttonTitle,
     Key? key,
   }) : super(key: key);

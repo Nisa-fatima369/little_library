@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:little_library/config/routes.dart';
-import 'package:little_library/theme/colors.dart';
+import 'package:little_library/widgets/theme/colors.dart';
 import 'package:little_library/widgets/status_pills.dart';
 
 class BookCard extends StatefulWidget {

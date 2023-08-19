@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:little_library/constants.dart';
-import 'package:little_library/theme/colors.dart';
+import 'package:little_library/widgets/theme/colors.dart';
 import 'package:little_library/utils/lists.dart';
 import 'package:little_library/widgets/book_container_with_delete.dart';
 import 'package:little_library/widgets/buttons.dart';

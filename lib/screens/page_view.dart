@@ -5,7 +5,7 @@ import 'package:little_library/screens/contact.dart';
 import 'package:little_library/screens/home.dart';
 import 'package:little_library/screens/location.dart';
 import 'package:little_library/screens/profile.dart';
-import 'package:little_library/theme/colors.dart';
+import 'package:little_library/widgets/theme/colors.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PageVieew extends StatefulWidget {

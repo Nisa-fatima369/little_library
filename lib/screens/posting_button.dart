@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:little_library/config/routes.dart';
-import 'package:little_library/theme/colors.dart';
+import 'package:little_library/widgets/theme/colors.dart';
 import 'package:little_library/widgets/buttons.dart';
 
 class SuccessScreen extends StatelessWidget {
