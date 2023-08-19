@@ -1,6 +1,6 @@
-
+ 
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart' hide Location;
 
 class Location extends StatefulWidget {
   const Location({super.key});
@@ -12,7 +12,8 @@ class Location extends StatefulWidget {
 class _LocationState extends State<Location> {
   @override
   void initState() {
-    // PermissionStatus permissionStatus = Location()
+    
+    
     super.initState();
   }
 
@@ -20,9 +21,10 @@ class _LocationState extends State<Location> {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: GoogleMap(
+        
         initialCameraPosition: CameraPosition(
-          target: LatLng(31.41633527432525, 73.06958859082539),
-          zoom: 12,
+          target: LatLng(30.1575, 71.5249),
+          zoom: 11,
         ),
       ),
     );

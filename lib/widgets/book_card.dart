@@ -50,69 +50,66 @@ class _BookCardState extends State<BookCard> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Card(
-                clipBehavior: Clip.antiAlias,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadiusDirectional.circular(10),
-                ),
-                child: Container(
-                  height: size.height * 0.11,
-                  width: size.width * 0.2,
-                  color: AppColors.border,
+              Expanded(
+                flex: 3,
+                child: Card(
+                  clipBehavior: Clip.antiAlias,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadiusDirectional.circular(10),
+                  ),
+                  child: Container(
+                    color: AppColors.border,
+                  ),
                 ),
               ),
-              SizedBox(width: size.width * 0.009),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Title of Book',
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(fontWeight: FontWeight.w500),
-                  ),
-                  SizedBox(height: size.height * 0.01),
-                  SizedBox(
-                    width: size.width * 0.43,
-                    child: Text(
-                      'Description of Book can move to another line line line line line line line line line ',
+              const SizedBox(width: 4),
+              Expanded(
+                flex: 5,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Title of Book',
                       overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: AppColors.placeholderText),
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500),
                     ),
-                  ),
-                  SizedBox(height: size.height * 0.01),
-                  Container(
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 16.0,
-                          backgroundColor: AppColors.border,
-                          child: Icon(
-                            Icons.person,
-                            color: AppColors.background2,
+                    SizedBox(height: size.height * 0.01),
+                    SizedBox(
+                      width: size.width * 0.43,
+                      child: Text(
+                        'Description of Book can move to another line line line line line line line line line ',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.placeholderText),
+                      ),
+                    ),
+                    SizedBox(height: size.height * 0.01),
+                    Container(
+                      child: Row(
+                        children: [
+                          const CircleAvatar(
+                            radius: 16.0,
+                            backgroundColor: AppColors.border,
+                            child: Icon(
+                              Icons.person,
+                              color: AppColors.background2,
+                            ),
                           ),
-                        ),
-                        SizedBox(width: size.width * 0.02),
-                        Text(
-                          'Username',
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      ],
+                          SizedBox(width: size.width * 0.02),
+                          Text(
+                            'Username',
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              SizedBox(width: size.width * 0.009),
-              SizedBox(
-                height: size.height * 0.11,
+              Expanded(
+                flex: 3,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -172,10 +169,7 @@ class SavedBookCard extends StatelessWidget {
                   Text(
                     'Title of Book',
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(fontWeight: FontWeight.w500),
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500),
                   ),
                   SizedBox(height: size.height * 0.01),
                   SizedBox(
@@ -184,10 +178,7 @@ class SavedBookCard extends StatelessWidget {
                       'Description of Book can move to another line line line line line line line line line ',
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: AppColors.placeholderText),
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.placeholderText),
                     ),
                   ),
                   SizedBox(height: size.height * 0.01),
@@ -284,10 +275,7 @@ class _MyBooksCardState extends State<MyBooksCard> {
                   Text(
                     'Title of Book',
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(fontWeight: FontWeight.w700, fontSize: 19),
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w700, fontSize: 19),
                   ),
                   SizedBox(height: size.height * 0.009),
                   SizedBox(
@@ -296,10 +284,7 @@ class _MyBooksCardState extends State<MyBooksCard> {
                       'Description of Book can move to another line Pos 191 batu 3, Jln Salleh, Kampung Bukit Treh, 84000, Johor, Malaysia',
                       overflow: TextOverflow.ellipsis,
                       maxLines: 3,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: AppColors.placeholderText),
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.placeholderText),
                     ),
                   ),
                 ],
@@ -316,13 +301,11 @@ class _MyBooksCardState extends State<MyBooksCard> {
                         showDialog(
                           context: context,
                           builder: (context) => SimpleDialog(
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 0, vertical: 0),
+                            contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                             backgroundColor: AppColors.background2,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 40, vertical: 20),
+                                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                                 child: Row(
                                   children: [
                                     Icon(Icons.edit),
@@ -338,12 +321,10 @@ class _MyBooksCardState extends State<MyBooksCard> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                      context, Routes.deleteBooks);
+                                  Navigator.pushNamed(context, Routes.deleteBooks);
                                 },
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 40, vertical: 20),
+                                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                                   child: Row(
                                     children: [
                                       Icon(Icons.delete),

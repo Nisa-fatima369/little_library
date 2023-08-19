@@ -38,9 +38,8 @@ class _PageVieewState extends State<PageVieew> {
   void initState() {
     _pageController.addListener(() {
       if (_pageController.page == 2) {
-        Navigator.pushNamed(context, Routes.addBook,arguments: _pageController);
+        Navigator.pushNamed(context, Routes.addBook, arguments: _pageController);
       }
-
     });
     super.initState();
   }
@@ -78,10 +77,8 @@ class _PageVieewState extends State<PageVieew> {
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               activeIcon: Container(
-                decoration: BoxDecoration(
-                    color: AppColors.secondary,
-                    borderRadius: BorderRadius.circular(30)),
-                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(30)),
+                padding: const EdgeInsets.all(8),
                 child: const Icon(
                   Icons.home,
                   color: AppColors.background1,
@@ -92,10 +89,8 @@ class _PageVieewState extends State<PageVieew> {
             ),
             BottomNavigationBarItem(
               activeIcon: Container(
-                decoration: BoxDecoration(
-                    color: AppColors.secondary,
-                    borderRadius: BorderRadius.circular(30)),
-                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(30)),
+                padding: const EdgeInsets.all(8),
                 child: const Icon(
                   FontAwesomeIcons.compass,
                   color: AppColors.background1,
@@ -116,10 +111,8 @@ class _PageVieewState extends State<PageVieew> {
             ),
             BottomNavigationBarItem(
               activeIcon: Container(
-                decoration: BoxDecoration(
-                    color: AppColors.secondary,
-                    borderRadius: BorderRadius.circular(30)),
-                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(30)),
+                padding: const EdgeInsets.all(8),
                 child: const Icon(
                   Icons.chat,
                   color: AppColors.background1,
@@ -130,10 +123,8 @@ class _PageVieewState extends State<PageVieew> {
             ),
             BottomNavigationBarItem(
               activeIcon: Container(
-                decoration: BoxDecoration(
-                    color: AppColors.secondary,
-                    borderRadius: BorderRadius.circular(30)),
-                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(30)),
+                padding: const EdgeInsets.all(8),
                 child: const Icon(
                   Icons.person,
                   color: AppColors.background1,
