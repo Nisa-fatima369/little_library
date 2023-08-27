@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:little_library/widgets/theme/colors.dart';
+import 'package:little_library/theme/colors.dart';
 import 'package:little_library/widgets/buttons.dart';
 
 class DeleteBook extends StatelessWidget {
@@ -9,21 +9,6 @@ class DeleteBook extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: AppColors.background2,
-      //   leading: GestureDetector(
-      //     onTap: () {
-      //       Navigator.pop(context);
-      //     },
-      //     child: const Icon(
-      //       Icons.close,
-      //     ),
-      //   ),
-      //   title: const Text(
-      //     'Delete Book?',
-      //     style: TextStyle(color: AppColors.primaryText),
-      //   ),
-      // ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
         child: Column(

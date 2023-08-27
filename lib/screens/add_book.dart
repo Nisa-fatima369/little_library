@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:little_library/constants.dart';
-import 'package:little_library/widgets/theme/colors.dart';
+import 'package:little_library/theme/colors.dart';
 import 'package:little_library/utils/lists.dart';
 import 'package:little_library/widgets/book_container_with_delete.dart';
 import 'package:little_library/widgets/buttons.dart';
@@ -31,67 +31,72 @@ class _AddBookState extends State<AddBook> {
   void toggleButton2() {
     setState(() {
       isToggle2 = !isToggle2;
-      _locationActionSheet(context);
+      _locationDialog(context);
       // if(!isToggle2 ==_locationActionSheet(context){
       // });
     });
   }
 
-  void _locationActionSheet(BuildContext context) {
-    showCupertinoModalPopup<void>(
+  _locationDialog(BuildContext context) {
+    showDialog(
       context: context,
-      builder: (BuildContext context) => CupertinoActionSheet(
-        title: const Icon(Icons.location_on, color: AppColors.blue),
-        message: Text(
-          'Allow Little Library to access this device\'s location',
-          style: Theme.of(context).textTheme.bodyMedium,
+      builder: (BuildContext context) => Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 50),
+          child: CupertinoActionSheet(
+            title: const Icon(Icons.location_on, color: AppColors.blue),
+            message: Text(
+              'Allow Little Library to access this device\'s location',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            actions: <Widget>[
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 20),
+                child: Icon(
+                  FontAwesomeIcons.earthAsia,
+                  size: 100,
+                  color: AppColors.blue,
+                ),
+              ),
+              CupertinoActionSheetAction(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'While using the app',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: AppColors.blue),
+                ),
+              ),
+              CupertinoActionSheetAction(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'Only this time',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: AppColors.blue),
+                ),
+              ),
+              CupertinoActionSheetAction(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'Deny',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: AppColors.blue),
+                ),
+              ),
+            ],
+          ),
         ),
-        actions: <Widget>[
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 20),
-            child: Icon(
-              FontAwesomeIcons.earthAsia,
-              size: 100,
-              color: AppColors.blue,
-            ),
-          ),
-          CupertinoActionSheetAction(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text(
-              'While using the app',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: AppColors.blue),
-            ),
-          ),
-          CupertinoActionSheetAction(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text(
-              'Only this time',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: AppColors.blue),
-            ),
-          ),
-          CupertinoActionSheetAction(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text(
-              'Deny',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: AppColors.blue),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -149,8 +154,11 @@ class _AddBookState extends State<AddBook> {
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () {
-            widget.pageController.animateToPage(0,
-                duration: Duration(milliseconds: 1), curve: Curves.easeInOut,);
+            widget.pageController.animateToPage(
+              0,
+              duration: const Duration(milliseconds: 1),
+              curve: Curves.easeInOut,
+            );
             Navigator.pop(context);
           },
           child: const Icon(Icons.close),
@@ -287,14 +295,7 @@ class _AddBookState extends State<AddBook> {
                     ],
                   ),
                   SizedBox(height: size.height * 0.02),
-                  GestureDetector(
-                    onTap: () {
-                      // Navigator.pushNamed(context, Routes.successScreen);
-                    },
-                    child: PrimaryTextButton(
-                      buttonTitle: 'ADD',
-                    ),
-                  ),
+                  addBution(context),
                   SizedBox(height: size.height * 0.02),
                 ],
               ),
@@ -304,4 +305,62 @@ class _AddBookState extends State<AddBook> {
       ),
     );
   }
+
+
+  addBution(BuildContext context){
+    Size size = MediaQuery.of(context).size;
+    return GestureDetector(
+      onTap: () {
+        Dialog.fullscreen(
+          backgroundColor: AppColors.background2,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Icon(Icons.close),
+                    ),
+                    SizedBox(width: size.width * 0.07),
+                    Text('Successfully posted!',
+                        style: Theme.of(context).textTheme.titleLarge),
+                  ],
+                ),
+                SizedBox(height: size.height * 0.02),
+                Container(
+                  height: size.height * 0.5,
+                  color: AppColors.border,
+                  child: Image.asset(
+                      'assets/images/post_success_illustration.png'),
+                ),
+                SizedBox(height: size.height * 0.02),
+              ],
+            ),
+          ),
+        );
+      },
+      child: Container(
+        height: size.height * 0.07,
+        decoration: BoxDecoration(
+          color: AppColors.primary,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Center(
+          child: Text(
+            'ADD',
+            style: Theme.of(context)
+                .textTheme
+                .labelLarge!
+                .copyWith(color: AppColors.secondary),
+          ),
+        ),
+      ),
+    );
+  }
 }
+
+

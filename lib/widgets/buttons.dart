@@ -5,7 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:little_library/config/routes.dart';
 
-import 'theme/colors.dart';
+import '../theme/colors.dart';
 
 Widget chatButton(BuildContext context, Size size) {
   return GestureDetector(
@@ -80,41 +80,46 @@ class TexxtButton extends StatelessWidget {
     super.key,
   });
 
-  void _imagePickerShowActionSheet(BuildContext context) {
-    showCupertinoModalPopup<void>(
+  _imagePickerDialog(BuildContext context) {
+    showDialog(
       context: context,
-      builder: (BuildContext context) => CupertinoActionSheet(
-        title: const Icon(Icons.folder, color: AppColors.blue),
-        message: Text(
-          'Allow Little Library to access photos, media, and files on your device?',
-          style: Theme.of(context).textTheme.bodyMedium,
+      builder: (BuildContext context) => Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 50),
+          child: CupertinoActionSheet(
+            title: const Icon(Icons.folder, color: AppColors.blue),
+            message: Text(
+              'Allow Little Library to access photos, media, and files on your device?',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            actions: <CupertinoActionSheetAction>[
+              CupertinoActionSheetAction(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'Allow',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: AppColors.blue),
+                ),
+              ),
+              CupertinoActionSheetAction(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'Deny',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: AppColors.blue),
+                ),
+              ),
+            ],
+          ),
         ),
-        actions: <CupertinoActionSheetAction>[
-          CupertinoActionSheetAction(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text(
-              'Allow',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: AppColors.blue),
-            ),
-          ),
-          CupertinoActionSheetAction(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text(
-              'Deny',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: AppColors.blue),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -124,7 +129,7 @@ class TexxtButton extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
-        _imagePickerShowActionSheet(context);
+        _imagePickerDialog(context);
       },
       child: Container(
         height: size.height * 0.07,
@@ -156,29 +161,97 @@ class TexxtButton extends StatelessWidget {
   }
 }
 
-class PrimaryTextButton extends StatelessWidget {
-  final String buttonTitle;
-  const PrimaryTextButton({
-    required this.buttonTitle,
+class AddButton extends StatefulWidget {
+  const AddButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<AddButton> createState() => _AddButtonState();
+}
+
+class _AddButtonState extends State<AddButton> {
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return GestureDetector(
+      onTap: () {
+        Dialog.fullscreen(
+          backgroundColor: AppColors.background2,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Icon(Icons.close),
+                    ),
+                    SizedBox(width: size.width * 0.07),
+                    Text('Successfully posted!',
+                        style: Theme.of(context).textTheme.titleLarge),
+                  ],
+                ),
+                SizedBox(height: size.height * 0.02),
+                Container(
+                  height: size.height * 0.5,
+                  color: AppColors.border,
+                  child: Image.asset(
+                      'assets/images/post_success_illustration.png'),
+                ),
+                SizedBox(height: size.height * 0.02),
+              ],
+            ),
+          ),
+        );
+      },
+      child: Container(
+        height: size.height * 0.07,
+        decoration: BoxDecoration(
+          color: AppColors.primary,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Center(
+          child: Text(
+            'ADD',
+            style: Theme.of(context)
+                .textTheme
+                .labelLarge!
+                .copyWith(color: AppColors.secondary),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class LogoutButton extends StatelessWidget {
+  const LogoutButton({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      height: size.height * 0.07,
-      decoration: BoxDecoration(
-        color: AppColors.primary,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Center(
-        child: Text(
-          buttonTitle,
-          style: Theme.of(context)
-              .textTheme
-              .labelLarge!
-              .copyWith(color: AppColors.secondary),
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        height: size.height * 0.07,
+        decoration: BoxDecoration(
+          color: AppColors.primary,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Center(
+          child: Text(
+            'LOGOUT',
+            style: Theme.of(context)
+                .textTheme
+                .labelLarge!
+                .copyWith(color: AppColors.secondary),
+          ),
         ),
       ),
     );

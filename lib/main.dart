@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:little_library/config/routes.dart';
 
-import 'package:little_library/widgets/theme/theming.dart';
+import 'package:little_library/theme/theming.dart';
 import 'package:location/location.dart';
 
 void main() async {

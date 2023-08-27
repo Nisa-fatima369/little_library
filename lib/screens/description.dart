@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:little_library/widgets/theme/colors.dart';
+import 'package:little_library/theme/colors.dart';
 import 'package:little_library/widgets/buttons.dart';
 import 'package:little_library/widgets/status_pills.dart';
 
@@ -36,7 +36,7 @@ class _DescriptionState extends State<Description> {
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 20),
-            child: InkWell(
+            child: GestureDetector(
               child: Icon(
                 isBookMarked ? Icons.bookmark : Icons.bookmark_border,
                 color: AppColors.secondary,

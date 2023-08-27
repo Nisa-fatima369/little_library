@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:little_library/constants.dart';
-import 'package:little_library/widgets/theme/colors.dart';
+import 'package:little_library/utils/lists.dart';
+import 'package:little_library/theme/colors.dart';
 import 'package:little_library/widgets/book_card.dart';
 
 class Home extends StatefulWidget {
@@ -15,15 +16,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final List<String> tabs = <String>[
-      'All',
-      'Fiction',
-      'Non-Fiction',
-      'Textbooks',
-      'Kids',
-      'Self-help',
-      'Comics',
-    ];
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
@@ -40,12 +32,15 @@ class _HomeState extends State<Home> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'All Books',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headlineLarge,
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            'All Books',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.headlineLarge,
+                          ),
                         ),
-                        SizedBox(height: size.height * 0.04),
+                        SizedBox(height: size.height * 0.03),
                         TextFormField(
                           controller: _searchController,
                           decoration: kSearchTextField.copyWith(
@@ -60,8 +55,8 @@ class _HomeState extends State<Home> {
                       ],
                     ),
                   ),
-                  toolbarHeight: 190,
-                  collapsedHeight: 200,
+                  toolbarHeight: 140,
+                  collapsedHeight: 150,
                   pinned: true,
                   // expandedHeight: 170,
                   forceElevated: innerBoxIsScrolled,
@@ -93,7 +88,7 @@ class _HomeState extends State<Home> {
             child: TabBarView(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 260),
+                  padding: const EdgeInsets.only(top: 210),
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,

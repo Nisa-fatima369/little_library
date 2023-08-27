@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:little_library/config/routes.dart';
 
-import 'package:little_library/widgets/theme/colors.dart';
+import 'package:little_library/theme/colors.dart';
 import 'package:little_library/widgets/buttons.dart';
 
 class Profile extends StatelessWidget {
@@ -84,7 +84,7 @@ class Profile extends StatelessWidget {
                   child: ProfileElements(
                       icon: Icons.bookmark, title: 'Saved Books')),
               SizedBox(height: size.height * 0.04),
-              PrimaryTextButton(buttonTitle: 'LOG OUT'),
+              LogoutButton(),
             ],
           ),
         ),

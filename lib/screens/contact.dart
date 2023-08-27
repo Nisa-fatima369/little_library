@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:little_library/config/routes.dart';
 import 'package:little_library/constants.dart';
-import 'package:little_library/widgets/theme/colors.dart';
+import 'package:little_library/theme/colors.dart';
 
 class Contacts extends StatefulWidget {
   const Contacts({super.key});
@@ -11,7 +11,7 @@ class Contacts extends StatefulWidget {
 }
 
 class _ContactsState extends State<Contacts> {
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

@@ -8,7 +8,6 @@ import 'package:little_library/screens/location.dart';
 import 'package:little_library/screens/login_screen.dart';
 import 'package:little_library/screens/my_books.dart';
 import 'package:little_library/screens/page_view.dart';
-import 'package:little_library/screens/posting_button.dart';
 import 'package:little_library/screens/profile.dart';
 import 'package:little_library/screens/saved_books.dart';
 import 'package:little_library/screens/signup.dart';
@@ -28,7 +27,6 @@ class Routes {
   static const String profile = 'profile';
   static const String description = 'description';
   static const String contact = 'contact';
-  static const String postingbutton = 'postingbutton';
   static const String myBooks = 'myBooks';
   static const String savedBooks = 'savedBooks';
   static const String deleteBooks = 'deleteBooks';
@@ -93,11 +91,7 @@ class Routes {
             alignment: Alignment.center,
             child: const Contacts(),
             type: PageTransitionType.scale);
-      case postingbutton:
-        return PageTransition(
-            alignment: Alignment.center,
-            child: const SuccessScreen(),
-            type: PageTransitionType.scale);
+      
       case myBooks:
         return PageTransition(
             alignment: Alignment.center,

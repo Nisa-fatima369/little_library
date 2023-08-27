@@ -5,7 +5,7 @@ import 'package:little_library/screens/contact.dart';
 import 'package:little_library/screens/home.dart';
 import 'package:little_library/screens/location.dart';
 import 'package:little_library/screens/profile.dart';
-import 'package:little_library/widgets/theme/colors.dart';
+import 'package:little_library/theme/colors.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PageVieew extends StatefulWidget {
@@ -38,7 +38,8 @@ class _PageVieewState extends State<PageVieew> {
   void initState() {
     _pageController.addListener(() {
       if (_pageController.page == 2) {
-        Navigator.pushNamed(context, Routes.addBook, arguments: _pageController);
+        Navigator.pushNamed(context, Routes.addBook,
+            arguments: _pageController);
       }
     });
     super.initState();
@@ -56,86 +57,94 @@ class _PageVieewState extends State<PageVieew> {
         },
         children: screens,
       ),
-      bottomNavigationBar: Container(
-        height: MediaQuery.of(context).size.height * 0.1,
-        decoration: const BoxDecoration(
-          // color: AppColors.primary,
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(10),
-            topLeft: Radius.circular(10),
+      bottomNavigationBar: BottomNavigationBar(
+        // fixedColor: AppColors.primary,
+        backgroundColor: AppColors.primary,
+        selectedFontSize: 14,
+        unselectedFontSize: 12,
+        unselectedItemColor: AppColors.secondary,
+        currentIndex: selectedIndex,
+        onTap: _animateToPage,
+        showUnselectedLabels: true,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            activeIcon: Container(
+              decoration: BoxDecoration(
+                  color: AppColors.secondary,
+                  borderRadius: BorderRadius.circular(30)),
+              padding: const EdgeInsets.all(8),
+              child: const Icon(
+                Icons.home,
+                color: AppColors.background1,
+              ),
+            ),
+            icon: const Icon(Icons.home),
+            label: '',
           ),
-        ),
-        child: BottomNavigationBar(
-          fixedColor: AppColors.primary,
-          backgroundColor: AppColors.primary,
-          selectedFontSize: 14,
-          unselectedFontSize: 12,
-          unselectedItemColor: AppColors.secondary,
-          currentIndex: selectedIndex,
-          onTap: _animateToPage,
-          showUnselectedLabels: true,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              activeIcon: Container(
-                decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(30)),
-                padding: const EdgeInsets.all(8),
-                child: const Icon(
-                  Icons.home,
-                  color: AppColors.background1,
-                ),
-              ),
-              icon: const Icon(Icons.home),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              activeIcon: Container(
-                decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(30)),
-                padding: const EdgeInsets.all(8),
-                child: const Icon(
-                  FontAwesomeIcons.compass,
-                  color: AppColors.background1,
-                ),
-              ),
-              icon: const Icon(
+          BottomNavigationBarItem(
+            activeIcon: Container(
+              decoration: BoxDecoration(
+                  color: AppColors.secondary,
+                  borderRadius: BorderRadius.circular(30)),
+              padding: const EdgeInsets.all(8),
+              child: const Icon(
                 FontAwesomeIcons.compass,
-                color: AppColors.secondary,
+                color: AppColors.background1,
               ),
-              label: '',
             ),
-            const BottomNavigationBarItem(
-              icon: Icon(
-                Icons.add_circle_outline_rounded,
-                color: AppColors.failure,
+            icon: const Icon(
+              FontAwesomeIcons.compass,
+              color: AppColors.secondary,
+            ),
+            label: '',
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(
+              Icons.add_circle_outline_rounded,
+              color: AppColors.failure,
+            ),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            activeIcon: Container(
+              decoration: BoxDecoration(
+                  color: AppColors.secondary,
+                  borderRadius: BorderRadius.circular(30)),
+              padding: const EdgeInsets.all(8),
+              child: const Icon(
+                Icons.chat,
+                color: AppColors.background1,
               ),
-              label: '',
             ),
-            BottomNavigationBarItem(
-              activeIcon: Container(
-                decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(30)),
-                padding: const EdgeInsets.all(8),
-                child: const Icon(
-                  Icons.chat,
-                  color: AppColors.background1,
-                ),
+            icon: const Icon(Icons.chat),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            activeIcon: Container(
+              decoration: BoxDecoration(
+                  color: AppColors.secondary,
+                  borderRadius: BorderRadius.circular(30)),
+              padding: const EdgeInsets.all(8),
+              child: const Icon(
+                Icons.person,
+                color: AppColors.background1,
               ),
-              icon: const Icon(Icons.chat),
-              label: '',
             ),
-            BottomNavigationBarItem(
-              activeIcon: Container(
-                decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(30)),
-                padding: const EdgeInsets.all(8),
-                child: const Icon(
-                  Icons.person,
-                  color: AppColors.background1,
-                ),
-              ),
-              icon: const Icon(Icons.person),
-              label: '',
-            ),
-          ],
-        ),
+            icon: const Icon(Icons.person),
+            label: '',
+          ),
+        ],
       ),
     );
   }
 }
+
+
+// height: MediaQuery.of(context).size.height * 0.1,
+//         decoration: const BoxDecoration(
+//           // color: AppColors.primary,
+//           borderRadius: BorderRadius.only(
+//             topRight: Radius.circular(10),
+//             topLeft: Radius.circular(10),
+//           ),
+//         ),
