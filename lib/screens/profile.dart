@@ -66,7 +66,50 @@ class Profile extends StatelessWidget {
               ),
               SizedBox(height: size.height * 0.04),
               GestureDetector(
-                // onTap: _imagePickerShowActionSheet(context),
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) => Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 50),
+                        child: CupertinoActionSheet(
+                          title:
+                              const Icon(Icons.folder, color: AppColors.blue),
+                          message: Text(
+                            'Allow Little Library to access photos, media, and files on your device?',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          actions: <CupertinoActionSheetAction>[
+                            CupertinoActionSheetAction(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                'Allow',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(color: AppColors.blue),
+                              ),
+                            ),
+                            CupertinoActionSheetAction(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                'Deny',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(color: AppColors.blue),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
                 child: ProfileElements(
                     title: 'Upload Profile Picture', icon: Icons.image),
               ),
@@ -101,45 +144,6 @@ class ProfileElements extends StatelessWidget {
     required this.icon,
     required this.title,
   }) : super(key: key);
-
-  _imagePickerShowActionSheet(BuildContext context) {
-    showCupertinoModalPopup<void>(
-      context: context,
-      builder: (BuildContext context) => CupertinoActionSheet(
-        title: const Icon(Icons.folder, color: AppColors.blue),
-        message: Text(
-          'Allow Little Library to access photos, media, and files on your device?',
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-        actions: <CupertinoActionSheetAction>[
-          CupertinoActionSheetAction(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text(
-              'Allow',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: AppColors.blue),
-            ),
-          ),
-          CupertinoActionSheetAction(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text(
-              'Deny',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: AppColors.blue),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {

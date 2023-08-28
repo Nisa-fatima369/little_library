@@ -3,6 +3,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:little_library/config/routes.dart';
 import 'package:little_library/modal/location_modal.dart';
+import 'package:little_library/screens/fullDialog/delete_books.dart';
+import 'package:little_library/screens/edit_book_details.dart';
 import 'package:little_library/theme/colors.dart';
 import 'package:little_library/widgets/status_pills.dart';
 
@@ -325,15 +327,26 @@ class _MyBooksCardState extends State<MyBooksCard> {
                                 horizontal: 0, vertical: 0),
                             backgroundColor: AppColors.background2,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 40, vertical: 20),
-                                child: Row(
-                                  children: [
-                                    const Icon(Icons.edit),
-                                    SizedBox(width: size.width * 0.02),
-                                    const Text('Edit'),
-                                  ],
+                              GestureDetector(
+                                onTap: (){
+                                  showDialog(
+                                    barrierColor: AppColors.primary,
+                                    context: context,
+                                    builder: (context) {
+                                      return EditBookDetails();
+                                    },
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 40, vertical: 20),
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.edit),
+                                      SizedBox(width: size.width * 0.02),
+                                      const Text('Edit'),
+                                    ],
+                                  ),
                                 ),
                               ),
                               const Divider(
@@ -343,8 +356,13 @@ class _MyBooksCardState extends State<MyBooksCard> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                      context, Routes.deleteBooks);
+                                  showDialog(
+                                    barrierColor: AppColors.background2,
+                                    context: context,
+                                    builder: (context) {
+                                      return DeleteBook();
+                                    },
+                                  );
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(

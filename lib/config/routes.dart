@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:little_library/screens/add_book.dart';
 import 'package:little_library/screens/chat.dart';
-import 'package:little_library/screens/delete_book.dart';
 import 'package:little_library/screens/description.dart';
 import 'package:little_library/screens/home.dart';
 import 'package:little_library/screens/location.dart';
@@ -14,6 +13,7 @@ import 'package:little_library/screens/signup.dart';
 import 'package:little_library/screens/splash_screen.dart';
 import 'package:little_library/screens/contact.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:little_library/screens/edit_book_details.dart';
 
 class Routes {
   static const String splashScreen = 'splashScreen';
@@ -29,7 +29,7 @@ class Routes {
   static const String contact = 'contact';
   static const String myBooks = 'myBooks';
   static const String savedBooks = 'savedBooks';
-  static const String deleteBooks = 'deleteBooks';
+  static const String editBookDetails = 'editBookDetails';
 
   PageTransition<dynamic> generateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
@@ -102,11 +102,12 @@ class Routes {
             alignment: Alignment.center,
             child: const SavedBooks(),
             type: PageTransitionType.scale);
-      case deleteBooks:
+      case editBookDetails:
         return PageTransition(
             alignment: Alignment.center,
-            child: const DeleteBook(),
+            child: const EditBookDetails(),
             type: PageTransitionType.scale);
+
       default:
         return PageTransition(
             alignment: Alignment.center,

@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:little_library/config/routes.dart';
+import 'package:little_library/screens/fullDialog/failed_post.dart';
+import 'package:little_library/screens/fullDialog/failed_update.dart';
+import 'package:little_library/screens/fullDialog/success_post.dart';
+import 'package:little_library/screens/fullDialog/successfully_update.dart';
 
 import '../theme/colors.dart';
 
@@ -176,36 +180,12 @@ class _AddButtonState extends State<AddButton> {
     Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
-        Dialog.fullscreen(
-          backgroundColor: AppColors.background2,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(Icons.close),
-                    ),
-                    SizedBox(width: size.width * 0.07),
-                    Text('Successfully posted!',
-                        style: Theme.of(context).textTheme.titleLarge),
-                  ],
-                ),
-                SizedBox(height: size.height * 0.02),
-                Container(
-                  height: size.height * 0.5,
-                  color: AppColors.border,
-                  child: Image.asset(
-                      'assets/images/post_success_illustration.png'),
-                ),
-                SizedBox(height: size.height * 0.02),
-              ],
-            ),
-          ),
+        showDialog(
+          barrierColor: AppColors.background2,
+          context: context,
+          builder: (context) {
+            return FailedPost();
+          },
         );
       },
       child: Container(
@@ -247,6 +227,146 @@ class LogoutButton extends StatelessWidget {
         child: Center(
           child: Text(
             'LOGOUT',
+            style: Theme.of(context)
+                .textTheme
+                .labelLarge!
+                .copyWith(color: AppColors.secondary),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ViewButton extends StatelessWidget {
+  const ViewButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          Routes.description,
+        );
+      },
+      child: Container(
+        height: size.height * 0.07,
+        decoration: BoxDecoration(
+          color: AppColors.primary,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Center(
+          child: Text(
+            'VIEW POST',
+            style: Theme.of(context)
+                .textTheme
+                .labelLarge!
+                .copyWith(color: AppColors.secondary),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ViewUpdateButton extends StatelessWidget {
+  const ViewUpdateButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          Routes.description,
+        );
+      },
+      child: Container(
+        height: size.height * 0.07,
+        decoration: BoxDecoration(
+          color: AppColors.primary,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Center(
+          child: Text(
+            'VIEW UPDATE',
+            style: Theme.of(context)
+                .textTheme
+                .labelLarge!
+                .copyWith(color: AppColors.secondary),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class TryAgainButton extends StatelessWidget {
+  const TryAgainButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return GestureDetector(
+      onTap: () {
+        Navigator.pop(context);
+      },
+      child: Container(
+        height: size.height * 0.07,
+        decoration: BoxDecoration(
+          color: AppColors.primary,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Center(
+          child: Text(
+            'TRY AGAIN',
+            style: Theme.of(context)
+                .textTheme
+                .labelLarge!
+                .copyWith(color: AppColors.secondary),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class UpdateButton extends StatelessWidget {
+  const UpdateButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+          barrierColor: AppColors.background2,
+          context: context,
+          builder: (context) {
+            return FailedUpdate();
+          },
+        );
+      },
+      child: Container(
+        height: size.height * 0.07,
+        decoration: BoxDecoration(
+          color: AppColors.primary,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Center(
+          child: Text(
+            'UPDATE',
             style: Theme.of(context)
                 .textTheme
                 .labelLarge!
