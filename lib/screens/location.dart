@@ -16,8 +16,9 @@ class Location extends StatefulWidget {
 class _LocationState extends State<Location> {
   final TextEditingController _searchController = TextEditingController();
   GoogleMapController? _mapController;
-  PageController _pageController = PageController();
+  PageController _pageController = PageController(viewportFraction: 0.8);
   List<Marker> allMarkers = [];
+  int _currentPosition = 0;
   @override
   void initState() {
     super.initState();
@@ -31,33 +32,6 @@ class _LocationState extends State<Location> {
         ),
       );
     }
-    _pageController = PageController(initialPage: 1, viewportFraction: 0.9);
-  }
-
-  _locationDataList(index) {
-    return AnimatedBuilder(
-      animation: _pageController,
-      builder: (BuildContext context, Widget? widget) {
-        Size size = MediaQuery.of(context).size;
-        double value = 1;
-        if (_pageController.position.haveDimensions) {
-          value = _pageController.page! - index;
-          value = (1 * (value.abs() * 0.3) + 0.6.clamp(0.0, 1.0));
-        }
-        return Center(
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: size.height * 0.2,
-            child: widget,
-          ),
-        );
-      },
-      child: const Stack(
-        children: [
-          SliderCard(),
-        ],
-      ),
-    );
   }
 
   @override
@@ -99,13 +73,13 @@ class _LocationState extends State<Location> {
             ),
           ),
           Positioned(
-            top: 150,
-            left: 0,
+            top: 130,
+            left: 12,
             right: 0,
             child: DefaultTabController(
               length: tabs.length,
               child: TabBar(
-                indicatorSize: TabBarIndicatorSize.label,
+                indicatorSize: TabBarIndicatorSize.tab,
                 labelStyle: Theme.of(context).textTheme.bodyMedium,
                 indicator: BoxDecoration(
                   color: AppColors.primary,
@@ -116,26 +90,10 @@ class _LocationState extends State<Location> {
                 labelColor: AppColors.primaryText,
                 tabs: tabs
                     .map((String name) => Tab(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: AppColors.background2,
-                              borderRadius: BorderRadius.circular(22),
-                              border: Border.all(
-                                color: AppColors.background2,
-                              ),
-                              boxShadow: const [
-                                BoxShadow(
-                                    blurRadius: 1,
-                                    spreadRadius: 1,
-                                    color: AppColors.background1),
-                              ],
-                            ),
-                            padding: const EdgeInsets.all(10),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                name,
-                              ),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              name,
                             ),
                           ),
                         ))
@@ -148,10 +106,16 @@ class _LocationState extends State<Location> {
             width: MediaQuery.of(context).size.width,
             bottom: 20,
             child: PageView.builder(
+              onPageChanged: (value) {
+                setState(() {
+                  _mapController?.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(target: locationData[value].locationCoords, zoom: 14.0)));
+                  _currentPosition = value;
+                });
+              },
               itemCount: locationData.length,
               controller: _pageController,
               itemBuilder: (context, index) {
-                return _locationDataList(index);
+                return SliderCard();
               },
             ),
           ),

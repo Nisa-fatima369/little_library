@@ -76,10 +76,7 @@ class _BookCardState extends State<BookCard> {
                     Text(
                       'Title of Book',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(fontWeight: FontWeight.w500),
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500),
                     ),
                     SizedBox(height: size.height * 0.01),
                     SizedBox(
@@ -88,10 +85,7 @@ class _BookCardState extends State<BookCard> {
                         'Description of Book can move to another line line line line line line line line line ',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall!
-                            .copyWith(color: AppColors.placeholderText),
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.placeholderText),
                       ),
                     ),
                     SizedBox(height: size.height * 0.01),
@@ -179,10 +173,7 @@ class SavedBookCard extends StatelessWidget {
                   Text(
                     'Title of Book',
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(fontWeight: FontWeight.w500),
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500),
                   ),
                   SizedBox(height: size.height * 0.01),
                   SizedBox(
@@ -191,10 +182,7 @@ class SavedBookCard extends StatelessWidget {
                       'Description of Book can move to another line line line line line line line line line ',
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: AppColors.placeholderText),
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.placeholderText),
                     ),
                   ),
                   SizedBox(height: size.height * 0.01),
@@ -291,10 +279,7 @@ class _MyBooksCardState extends State<MyBooksCard> {
                   Text(
                     'Title of Book',
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(fontWeight: FontWeight.w700, fontSize: 19),
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w700, fontSize: 19),
                   ),
                   SizedBox(height: size.height * 0.009),
                   SizedBox(
@@ -303,10 +288,7 @@ class _MyBooksCardState extends State<MyBooksCard> {
                       'Description of Book can move to another line Pos 191 batu 3, Jln Salleh, Kampung Bukit Treh, 84000, Johor, Malaysia',
                       overflow: TextOverflow.ellipsis,
                       maxLines: 3,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: AppColors.placeholderText),
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.placeholderText),
                     ),
                   ),
                 ],
@@ -323,12 +305,11 @@ class _MyBooksCardState extends State<MyBooksCard> {
                         showDialog(
                           context: context,
                           builder: (context) => SimpleDialog(
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 0, vertical: 0),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                             backgroundColor: AppColors.background2,
                             children: [
                               GestureDetector(
-                                onTap: (){
+                                onTap: () {
                                   showDialog(
                                     barrierColor: AppColors.primary,
                                     context: context,
@@ -338,8 +319,7 @@ class _MyBooksCardState extends State<MyBooksCard> {
                                   );
                                 },
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 40, vertical: 20),
+                                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                                   child: Row(
                                     children: [
                                       const Icon(Icons.edit),
@@ -365,8 +345,7 @@ class _MyBooksCardState extends State<MyBooksCard> {
                                   );
                                 },
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 40, vertical: 20),
+                                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                                   child: Row(
                                     children: [
                                       const Icon(Icons.delete),
@@ -416,150 +395,122 @@ class _SliderCardState extends State<SliderCard> {
   GoogleMapController? _controller;
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, Routes.description);
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Card(
-          shadowColor: AppColors.disabled,
-          child: Container(
-            decoration: const BoxDecoration(
-              color: AppColors.background2,
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.background2,
-                  blurRadius: 1,
-                  spreadRadius: 2,
-                ),
-              ],
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Title of Book',
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(fontWeight: FontWeight.w500),
-                          ),
-                          SizedBox(height: size.height * 0.01),
-                          SizedBox(
-                            width: size.width * 0.5,
-                            child: Text(
-                              'Description of Book can move to another line line line line line line line line line ',
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadiusDirectional.circular(10),
+        ),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Title of Book',
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500),
+                        ),
+                        Text(
+                          'Description of Book can move to another line line line line line line line line line ',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.placeholderText),
+                        ),
+                        Row(
+                          children: [
+                            const CircleAvatar(
+                              radius: 16.0,
+                              backgroundColor: AppColors.border,
+                              child: Icon(
+                                Icons.person,
+                                color: AppColors.background2,
+                              ),
+                            ),
+                            Text(
+                              'Username',
                               overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(color: AppColors.placeholderText),
+                              style: Theme.of(context).textTheme.bodySmall,
                             ),
-                          ),
-                          SizedBox(height: size.height * 0.01),
-                          Row(
-                            children: [
-                              const CircleAvatar(
-                                radius: 16.0,
-                                backgroundColor: AppColors.border,
-                                child: Icon(
-                                  Icons.person,
-                                  color: AppColors.background2,
-                                ),
-                              ),
-                              SizedBox(width: size.width * 0.02),
-                              Text(
-                                'Username',
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 110,
-                      width: 120,
-                      child: Card(
-                        clipBehavior: Clip.antiAlias,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadiusDirectional.circular(10),
+                          ],
                         ),
-                        child: Container(
-                          color: AppColors.border,
-                        ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        _controller?.animateCamera(
-                          CameraUpdate.newCameraPosition(
-                            CameraPosition(
-                              target:
-                                  locationData[_pageController.page!.toInt()]
-                                      .locationCoords,
-                              zoom: 14.0,
-                              bearing: 45.0,
-                              tilt: 45.0,
-                            ),
-                          ),
-                        );
-                      },
+                  ),
+                  SizedBox(
+                    height: 110,
+                    width: 120,
+                    child: Card(
+                      clipBehavior: Clip.antiAlias,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadiusDirectional.circular(10),
+                      ),
                       child: Container(
-                        height: size.height * 0.04,
-                        width: size.width * 0.33,
-                        decoration: BoxDecoration(
-                          color: AppColors.primary,
-                          borderRadius: BorderRadius.circular(25),
+                        color: AppColors.border,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      _controller?.animateCamera(
+                        CameraUpdate.newCameraPosition(
+                          CameraPosition(
+                            target: locationData[_pageController.page!.toInt()].locationCoords,
+                            zoom: 14.0,
+                            bearing: 45.0,
+                            tilt: 45.0,
+                          ),
                         ),
-                        child: const Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.location_pin,
+                      );
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 150,
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: const Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.location_pin,
+                              color: AppColors.secondary,
+                            ),
+                            Text(
+                              'Locate on map',
+                              style: TextStyle(
                                 color: AppColors.secondary,
                               ),
-                              Text(
-                                'Locate on map',
-                                style: TextStyle(
-                                  color: AppColors.secondary,
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    Icon(Icons.bookmark_outline, color: AppColors.secondary),
-                    availableStatusPills(),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                  Icon(Icons.bookmark_outline, color: AppColors.secondary),
+                  availableStatusPills(),
+                ],
+              ),
+            ],
           ),
         ),
       ),

@@ -34,85 +34,42 @@ class Routes {
   PageTransition<dynamic> generateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case splashScreen:
-        return PageTransition(
-            alignment: Alignment.center,
-            child: const SplashScreen(),
-            type: PageTransitionType.scale);
+        return PageTransition(alignment: Alignment.center, child: const SplashScreen(), type: PageTransitionType.scale);
       case signupScreen:
-        return PageTransition(
-            alignment: Alignment.center,
-            child: const Signup(),
-            type: PageTransitionType.scale);
+        return PageTransition(alignment: Alignment.center, child: const Signup(), type: PageTransitionType.scale);
       case loginScreen:
-        return PageTransition(
-            alignment: Alignment.center,
-            child: const LoginScreen(),
-            type: PageTransitionType.scale);
+        return PageTransition(alignment: Alignment.center, child: const LoginScreen(), type: PageTransitionType.scale);
       case pageView:
-        return PageTransition(
-            alignment: Alignment.center,
-            child: const PageVieew(),
-            type: PageTransitionType.scale);
+        return PageTransition(alignment: Alignment.center, child: const PageVieew(), type: PageTransitionType.scale);
       case home:
-        return PageTransition(
-            alignment: Alignment.center,
-            child: const Home(),
-            type: PageTransitionType.scale);
+        return PageTransition(alignment: Alignment.center, child: const Home(), type: PageTransitionType.scale);
       case location:
-        return PageTransition(
-            alignment: Alignment.center,
-            child: const Location(),
-            type: PageTransitionType.scale);
+        return PageTransition(alignment: Alignment.center, child: const Location(), type: PageTransitionType.scale);
       case addBook:
         return PageTransition(
           duration: Duration(milliseconds: 500),
           alignment: Alignment.center,
-          child: AddBook(
-              pageController: routeSettings.arguments as PageController),
+          child: AddBook(pageController: routeSettings.arguments as PageController),
           type: PageTransitionType.bottomToTop,
         );
       case chat:
-        return PageTransition(
-            alignment: Alignment.center,
-            child: const Chat(),
-            type: PageTransitionType.scale);
+        return PageTransition(alignment: Alignment.center, child: const Chat(), type: PageTransitionType.scale);
       case profile:
-        return PageTransition(
-            alignment: Alignment.center,
-            child: const Profile(),
-            type: PageTransitionType.scale);
+        return PageTransition(alignment: Alignment.center, child: const Profile(), type: PageTransitionType.scale);
       case description:
-        return PageTransition(
-            alignment: Alignment.center,
-            child: const Description(),
-            type: PageTransitionType.scale);
+        return PageTransition(alignment: Alignment.center, child: const BookDetail(), type: PageTransitionType.scale);
       case contact:
-        return PageTransition(
-            alignment: Alignment.center,
-            child: const Contacts(),
-            type: PageTransitionType.scale);
-      
+        return PageTransition(alignment: Alignment.center, child: const Contacts(), type: PageTransitionType.scale);
+
       case myBooks:
-        return PageTransition(
-            alignment: Alignment.center,
-            child: const MyBooks(),
-            type: PageTransitionType.scale);
+        return PageTransition(alignment: Alignment.center, child: const MyBooks(), type: PageTransitionType.scale);
       case savedBooks:
-        return PageTransition(
-            alignment: Alignment.center,
-            child: const SavedBooks(),
-            type: PageTransitionType.scale);
+        return PageTransition(alignment: Alignment.center, child: const SavedBooks(), type: PageTransitionType.scale);
       case editBookDetails:
-        return PageTransition(
-            alignment: Alignment.center,
-            child: const EditBookDetails(),
-            type: PageTransitionType.scale);
+        return PageTransition(alignment: Alignment.center, child: const EditBookDetails(), type: PageTransitionType.scale);
 
       default:
-        return PageTransition(
-            alignment: Alignment.center,
-            child: const PageVieew(),
-            type: PageTransitionType.scale);
+        return PageTransition(alignment: Alignment.center, child: const PageVieew(), type: PageTransitionType.scale);
     }
   }
 }
