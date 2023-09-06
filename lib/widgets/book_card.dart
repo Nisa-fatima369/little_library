@@ -21,18 +21,31 @@ class _BookCardState extends State<BookCard> {
       isBookMarked = !isBookMarked;
     });
 
-    Fluttertoast.showToast(
-      msg: isBookMarked ? 'Book saved' : 'Book failed to save',
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM_RIGHT,
-      timeInSecForIosWeb: 1,
-      backgroundColor: AppColors.placeholderText,
-      textColor: AppColors.background2,
-      webBgColor: isBookMarked ? '#00C851' : '#ff4444',
-      webPosition: "center",
-      fontSize: 30,
-      // webIcon: ""
-      webShowClose: true,
+    // Fluttertoast.showToast(
+    //   msg: isBookMarked ? 'Book saved' : 'Book failed to save',
+    //   toastLength: Toast.LENGTH_SHORT,
+    //   gravity: ToastGravity.BOTTOM_RIGHT,
+    //   timeInSecForIosWeb: 1,
+    //   backgroundColor: AppColors.placeholderText,
+    //   textColor: AppColors.background2,
+    //   webBgColor: isBookMarked ? '#00C851' : '#ff4444',
+    //   webPosition: "center",
+    //   fontSize: 30,
+    //   // webIcon: ""
+    // );
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        width: 180,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+        content: Text(
+          isBookMarked ? 'Book saved' : 'Book failed to save',
+          textAlign: TextAlign.center,
+        ),
+        duration: const Duration(seconds: 1),
+        backgroundColor: Colors.black.withOpacity(0.9),
+      ),
     );
   }
 
@@ -49,7 +62,7 @@ class _BookCardState extends State<BookCard> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                flex: 2,
+                flex: 4,
                 child: Card(
                   clipBehavior: Clip.antiAlias,
                   shape: RoundedRectangleBorder(
@@ -62,7 +75,7 @@ class _BookCardState extends State<BookCard> {
               ),
               const SizedBox(width: 10),
               Expanded(
-                flex: 5,
+                flex: 7,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,19 +83,13 @@ class _BookCardState extends State<BookCard> {
                     Text(
                       'Title of Book',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(fontWeight: FontWeight.w500),
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500),
                     ),
                     Text(
                       'Description of Book can move to another line line line line line line line line line ',
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: AppColors.placeholderText),
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.placeholderText),
                     ),
                     Row(
                       children: [
@@ -107,7 +114,7 @@ class _BookCardState extends State<BookCard> {
               ),
               const SizedBox(width: 10),
               Expanded(
-                flex: 2,
+                flex: 4,
                 child: SizedBox(
                   height: 100,
                   child: Column(
@@ -117,13 +124,11 @@ class _BookCardState extends State<BookCard> {
                       IconButton(
                         icon: Icon(
                           isBookMarked ? Icons.bookmark : Icons.bookmark_border,
-                          color: isBookMarked
-                              ? const Color.fromARGB(255, 123, 75, 165)
-                              : AppColors.secondary,
+                          color: isBookMarked ? const Color.fromARGB(255, 123, 75, 165) : AppColors.secondary,
                         ),
                         onPressed: toggleBookmark,
                       ),
-                      unavailableStatusPills(),
+                      isBookMarked ? unavailableStatusPills() : availableStatusPills()
                     ],
                   ),
                 ),

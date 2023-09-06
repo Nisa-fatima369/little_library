@@ -4,15 +4,19 @@ import 'package:little_library/theme/colors.dart';
 Widget availableStatusPills() {
   return Container(
     height: 30,
-    width: 100,
-    decoration: BoxDecoration(
+    decoration: const BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(5)),
       color: AppColors.lightGreen,
     ),
-    child: Center(
-      child: Text(
-        'Available',
-        style: TextStyle(
-          color: AppColors.success,
+    child: const Padding(
+      padding: EdgeInsets.all(4.0),
+      child: Center(
+        child: Text(
+          'Available',
+          style: TextStyle(
+            color: AppColors.success,
+            fontSize: 14,
+          ),
         ),
       ),
     ),
@@ -22,15 +26,19 @@ Widget availableStatusPills() {
 Widget unavailableStatusPills() {
   return Container(
     height: 30,
-    width: 100,
-    decoration: BoxDecoration(
+    decoration: const BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(5)),
       color: AppColors.lightPink,
     ),
-    child: Center(
-      child: Text(
-        'Unavailable',
-        style: TextStyle(
-          color: AppColors.failure,
+    child: const Padding(
+      padding: EdgeInsets.all(4.0),
+      child: Center(
+        child: Text(
+          'Unavailable',
+          style: TextStyle(
+            fontSize: 14,
+            color: AppColors.failure,
+          ),
         ),
       ),
     ),

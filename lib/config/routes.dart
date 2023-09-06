@@ -47,7 +47,7 @@ class Routes {
         return PageTransition(alignment: Alignment.center, child: const Location(), type: PageTransitionType.scale);
       case addBook:
         return PageTransition(
-          duration: Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 500),
           alignment: Alignment.center,
           child: AddBook(pageController: routeSettings.arguments as PageController),
           type: PageTransitionType.bottomToTop,
