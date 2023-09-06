@@ -3,8 +3,8 @@ import 'package:little_library/config/routes.dart';
 import 'package:little_library/theme/colors.dart';
 import 'package:little_library/widgets/textfield_rectangle.dart';
 
-class Signup extends StatelessWidget {
-  const Signup({super.key});
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,31 +30,26 @@ class Signup extends StatelessWidget {
                 ),
                 SizedBox(height: size.height * 0.02),
                 Text(
-                  'Create your account now to chat and explore',
+                  'Login now to explore what\'s good',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 SizedBox(height: size.height * 0.02),
                 Image.asset(
-                  'assets/images/signupIllustration.png',
+                  'assets/images/loginIllustration.png',
                   height: size.height * 0.2,
                   fit: BoxFit.contain,
                 ),
                 SizedBox(height: size.height * 0.02),
-                const Reusable(
-                  hintText: 'Username',
-                  icon: Icon(Icons.person),
-                ),
-                SizedBox(height: size.height * 0.02),
-                const Reusable(
-                  hintText: 'Email',
-                  icon: Icon(Icons.email),
-                ),
-                SizedBox(height: size.height * 0.02),
-                const Reusable(
-                  hintText: 'Password',
-                  icon: Icon(Icons.lock),
-                ),
+                // const Reusable(
+                //   hintText: 'Email',
+                //   icon: Icon(Icons.email),
+                // ),
+                // SizedBox(height: size.height * 0.02),
+                // const Reusable(
+                //   hintText: 'Password',
+                //   icon: Icon(Icons.lock),
+                // ),
                 SizedBox(height: size.height * 0.05),
                 SizedBox(
                   height: 55,
@@ -63,9 +58,11 @@ class Signup extends StatelessWidget {
                       backgroundColor:
                           MaterialStateProperty.all(AppColors.primary),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, Routes.pageView);
+                    },
                     child: Text(
-                      'CREATE ACCOUNT',
+                      'LOGIN',
                       style: Theme.of(context).textTheme.labelLarge,
                     ),
                   ),
@@ -74,16 +71,14 @@ class Signup extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Have an existing account?',
+                    Text('Don\'t have an account yet?',
                         style: Theme.of(context).textTheme.bodyLarge),
                     // SizedBox(width: 10),
                     InkWell(
-                      onTap: () => Navigator.pushNamed(
-                        context,
-                        Routes.loginScreen,
-                      ),
+                      onTap: () =>
+                          Navigator.pushNamed(context, Routes.signupScreen),
                       child: Text(
-                        'Login Here',
+                        'Create Here',
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge!

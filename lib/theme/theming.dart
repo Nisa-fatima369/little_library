@@ -23,16 +23,14 @@ ThemeData themeData = ThemeData(
     ),
     elevation: 0,
   ),
-  
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     backgroundColor: AppColors.primary,
   ),
-  
   textTheme: const TextTheme(
     headlineLarge: TextStyle(
       color: AppColors.primaryText,
-      fontWeight: FontWeight.w900,
-      fontSize: 32,
+      fontWeight: FontWeight.w700,
+      fontSize: 30,
     ),
     headlineMedium: TextStyle(
       color: AppColors.primaryText,

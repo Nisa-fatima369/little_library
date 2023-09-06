@@ -12,7 +12,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -26,7 +26,7 @@ class _HomeState extends State<Home> {
                 handle:
                     NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 sliver: SliverAppBar(
-                  backgroundColor: AppColors.background2,
+                  backgroundColor: AppColors.background1,
                   title: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
                             style: Theme.of(context).textTheme.headlineLarge,
                           ),
                         ),
-                        SizedBox(height: size.height * 0.03),
+                        SizedBox(height: size.height * 0.02),
                         TextFormField(
                           controller: _searchController,
                           decoration: kSearchTextField.copyWith(
@@ -65,11 +65,14 @@ class _HomeState extends State<Home> {
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width / 1.05,
                       child: TabBar(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 5),
                         labelStyle: Theme.of(context).textTheme.bodyMedium,
                         indicator: BoxDecoration(
                           color: AppColors.primary,
-                          borderRadius: BorderRadius.circular(22),
+                          borderRadius: BorderRadius.circular(28),
                         ),
+                        splashBorderRadius: BorderRadius.circular(28),
                         isScrollable: true,
                         unselectedLabelColor: AppColors.primaryText,
                         labelColor: AppColors.primaryText,
@@ -93,17 +96,12 @@ class _HomeState extends State<Home> {
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
-                      return BookCard();
+                      return const BookCard();
                     },
-                    itemCount: 20,
-                    // separatorBuilder: (BuildContext context, int index) {
-                    //   return const Divider();
-                    // },
+                    itemCount: 10,
                   ),
                 ),
-                Container(
-                  child: const Text("Articles Body"),
-                ),
+                const Text("Articles Body"),
                 Container(
                   child: const Text("User Body"),
                 ),

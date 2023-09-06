@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:little_library/screens/add_book.dart';
-import 'package:little_library/screens/chat.dart';
-import 'package:little_library/screens/description.dart';
-import 'package:little_library/screens/home.dart';
-import 'package:little_library/screens/location.dart';
-import 'package:little_library/screens/login_screen.dart';
-import 'package:little_library/screens/my_books.dart';
+import 'package:little_library/screens/exploreBooks/location.dart';
 import 'package:little_library/screens/page_view.dart';
-import 'package:little_library/screens/profile.dart';
-import 'package:little_library/screens/saved_books.dart';
-import 'package:little_library/screens/signup.dart';
-import 'package:little_library/screens/splash_screen.dart';
-import 'package:little_library/screens/contact.dart';
+import 'package:little_library/screens/HomePage/description.dart';
+import 'package:little_library/screens/HomePage/home.dart';
+import 'package:little_library/screens/addBookPage/add_book.dart';
+import 'package:little_library/screens/chatPage/chat.dart';
+import 'package:little_library/screens/chatPage/contact.dart';
+import 'package:little_library/screens/onBoardingScreens/login_screen.dart';
+import 'package:little_library/screens/onBoardingScreens/signup.dart';
+import 'package:little_library/screens/onBoardingScreens/splash_screen.dart';
+import 'package:little_library/screens/profilePage/edit_book_details.dart';
+import 'package:little_library/screens/profilePage/my_books.dart';
+import 'package:little_library/screens/profilePage/profile.dart';
+import 'package:little_library/screens/profilePage/saved_books.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:little_library/screens/edit_book_details.dart';
 
 class Routes {
   static const String splashScreen = 'splashScreen';

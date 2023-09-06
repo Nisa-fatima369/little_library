@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:little_library/theme/colors.dart';
 
 final kTextField = InputDecoration(
-  helperStyle: TextStyle(
+  helperStyle: const TextStyle(
     color: AppColors.primaryText,
   ),
-  floatingLabelStyle: TextStyle(
+  floatingLabelStyle: const TextStyle(
     color: AppColors.primaryText,
   ),
-  labelStyle: TextStyle(
+  labelStyle: const TextStyle(
     color: AppColors.primaryText,
   ),
   iconColor: AppColors.secondary,
@@ -28,12 +28,20 @@ final kTextField = InputDecoration(
       color: AppColors.border,
     ),
   ),
-  focusedBorder: OutlineInputBorder(
+  errorBorder: OutlineInputBorder(
     borderRadius: BorderRadius.circular(5),
-    borderSide: BorderSide(
+    borderSide: const BorderSide(
       color: AppColors.border,
     ),
   ),
+  focusedBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(5),
+    borderSide: const BorderSide(
+      color: AppColors.border,
+    ),
+  ),
+  focusedErrorBorder: InputBorder.none,
+  errorStyle: const TextStyle(color: Colors.red),
   hoverColor: AppColors.background1,
   focusColor: AppColors.background1,
   fillColor: AppColors.background1,
@@ -42,13 +50,13 @@ final kTextField = InputDecoration(
 
 //Search TextField
 final kSearchTextField = InputDecoration(
-  helperStyle: TextStyle(
+  helperStyle: const TextStyle(
     color: AppColors.primaryText,
   ),
-  floatingLabelStyle: TextStyle(
+  floatingLabelStyle: const TextStyle(
     color: AppColors.primaryText,
   ),
-  labelStyle: TextStyle(
+  labelStyle: const TextStyle(
     color: AppColors.primaryText,
   ),
   iconColor: AppColors.secondary,
@@ -70,7 +78,7 @@ final kSearchTextField = InputDecoration(
   ),
   focusedBorder: OutlineInputBorder(
     borderRadius: BorderRadius.circular(30),
-    borderSide: BorderSide(
+    borderSide: const BorderSide(
       color: AppColors.border,
     ),
   ),

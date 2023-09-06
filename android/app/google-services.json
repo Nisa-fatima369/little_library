@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "260154294832",
+    "project_id": "little-library-239e7",
+    "storage_bucket": "little-library-239e7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:260154294832:android:f0ab955628fd96e9bb63f5",
+        "android_client_info": {
+          "package_name": "com.example.little_library"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "260154294832-bk5q596o6b4q7ppt4ierhe800s1phu2b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZccv8zPgDOVt4eABPugNU7B6gD0i69-U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "260154294832-bk5q596o6b4q7ppt4ierhe800s1phu2b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

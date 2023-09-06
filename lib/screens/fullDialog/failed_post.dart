@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:little_library/theme/colors.dart';
-import 'package:little_library/widgets/buttons.dart';
+import 'package:little_library/widgets/try_again_button.dart';
 
 class FailedPost extends StatefulWidget {
   const FailedPost({super.key});

@@ -1,21 +1,21 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:little_library/constants.dart';
 import 'package:little_library/theme/colors.dart';
 import 'package:little_library/utils/lists.dart';
+import 'package:little_library/widgets/add_button.dart';
 import 'package:little_library/widgets/book_container_with_delete.dart';
 import 'package:little_library/widgets/buttons.dart';
 import 'package:little_library/widgets/location_expansion.dart';
 
-class EditBookDetails extends StatefulWidget {
-  const EditBookDetails({super.key});
+class AddBook extends StatefulWidget {
+  final PageController pageController;
+  const AddBook({super.key, required this.pageController});
 
   @override
-  State<EditBookDetails> createState() => _EditBookDetailsState();
+  State<AddBook> createState() => _AddBookState();
 }
 
-class _EditBookDetailsState extends State<EditBookDetails> {
+class _AddBookState extends State<AddBook> {
   final TextEditingController controller = TextEditingController();
 
   bool isToggle1 = false;
@@ -30,73 +30,11 @@ class _EditBookDetailsState extends State<EditBookDetails> {
   void toggleButton2() {
     setState(() {
       isToggle2 = !isToggle2;
-      _locationDialog(context);
+      
     });
   }
 
-  _locationDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 50),
-          child: CupertinoActionSheet(
-            title: const Icon(Icons.location_on, color: AppColors.blue),
-            message: Text(
-              'Allow Little Library to access this device\'s location',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            actions: <Widget>[
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
-                child: Icon(
-                  FontAwesomeIcons.earthAsia,
-                  size: 100,
-                  color: AppColors.blue,
-                ),
-              ),
-              CupertinoActionSheetAction(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  'While using the app',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(color: AppColors.blue),
-                ),
-              ),
-              CupertinoActionSheetAction(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  'Only this time',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(color: AppColors.blue),
-                ),
-              ),
-              CupertinoActionSheetAction(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  'Deny',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(color: AppColors.blue),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  
 
   _optionBottomSheet(BuildContext context, Size size, List<String> options,
       TextEditingController controller) {
@@ -151,6 +89,11 @@ class _EditBookDetailsState extends State<EditBookDetails> {
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () {
+            widget.pageController.animateToPage(
+              0,
+              duration: const Duration(milliseconds: 1),
+              curve: Curves.easeInOut,
+            );
             Navigator.pop(context);
           },
           child: const Icon(Icons.close),
@@ -287,7 +230,7 @@ class _EditBookDetailsState extends State<EditBookDetails> {
                     ],
                   ),
                   SizedBox(height: size.height * 0.02),
-                  UpdateButton(),
+                  const AddButton(),
                   SizedBox(height: size.height * 0.02),
                 ],
               ),

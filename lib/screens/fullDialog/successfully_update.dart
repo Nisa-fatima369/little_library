@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:little_library/theme/colors.dart';
-import 'package:little_library/widgets/buttons.dart';
+import 'package:little_library/widgets/view_update_button.dart';
 
 class SuccessfullyUpdate extends StatefulWidget {
   const SuccessfullyUpdate({
@@ -38,7 +38,7 @@ class _SuccessfullyUpdateState extends State<SuccessfullyUpdate> {
               fit: BoxFit.contain,
             ),
             SizedBox(height: size.height * 0.03),
-            ViewUpdateButton(),
+            const ViewUpdateButton(),
           ],
         ),
       ),

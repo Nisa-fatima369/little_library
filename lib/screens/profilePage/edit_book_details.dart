@@ -1,22 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:little_library/constants.dart';
 import 'package:little_library/theme/colors.dart';
 import 'package:little_library/utils/lists.dart';
 import 'package:little_library/widgets/book_container_with_delete.dart';
 import 'package:little_library/widgets/buttons.dart';
 import 'package:little_library/widgets/location_expansion.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:little_library/widgets/update_button.dart';
 
-class AddBook extends StatefulWidget {
-  final PageController pageController;
-  const AddBook({super.key, required this.pageController});
+class EditBookDetails extends StatefulWidget {
+  const EditBookDetails({super.key});
 
   @override
-  State<AddBook> createState() => _AddBookState();
+  State<EditBookDetails> createState() => _EditBookDetailsState();
 }
 
-class _AddBookState extends State<AddBook> {
+class _EditBookDetailsState extends State<EditBookDetails> {
   final TextEditingController controller = TextEditingController();
 
   bool isToggle1 = false;
@@ -32,8 +32,6 @@ class _AddBookState extends State<AddBook> {
     setState(() {
       isToggle2 = !isToggle2;
       _locationDialog(context);
-      // if(!isToggle2 ==_locationActionSheet(context){
-      // });
     });
   }
 
@@ -154,11 +152,6 @@ class _AddBookState extends State<AddBook> {
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () {
-            widget.pageController.animateToPage(
-              0,
-              duration: const Duration(milliseconds: 1),
-              curve: Curves.easeInOut,
-            );
             Navigator.pop(context);
           },
           child: const Icon(Icons.close),
@@ -295,7 +288,7 @@ class _AddBookState extends State<AddBook> {
                     ],
                   ),
                   SizedBox(height: size.height * 0.02),
-                  AddButton(),
+                  UpdateButton(),
                   SizedBox(height: size.height * 0.02),
                 ],
               ),

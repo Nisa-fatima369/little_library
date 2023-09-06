@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart' hide Location;
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:little_library/constants.dart';
 import 'package:little_library/modal/location_modal.dart';
 import 'package:little_library/utils/lists.dart';
-import 'package:little_library/widgets/book_card.dart';
 import 'package:little_library/theme/colors.dart';
+import 'package:little_library/widgets/slider_card.dart';
 
 class Location extends StatefulWidget {
   const Location({super.key});
@@ -16,9 +16,8 @@ class Location extends StatefulWidget {
 class _LocationState extends State<Location> {
   final TextEditingController _searchController = TextEditingController();
   GoogleMapController? _mapController;
-  PageController _pageController = PageController(viewportFraction: 0.8);
+  final PageController _pageController = PageController(viewportFraction: 0.8);
   List<Marker> allMarkers = [];
-  int _currentPosition = 0;
   @override
   void initState() {
     super.initState();
@@ -85,6 +84,11 @@ class _LocationState extends State<Location> {
                   color: AppColors.primary,
                   borderRadius: BorderRadius.circular(22),
                 ),
+                splashBorderRadius: BorderRadius.circular(28),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 5,
+                  vertical: 5,
+                ),
                 isScrollable: true,
                 unselectedLabelColor: AppColors.primaryText,
                 labelColor: AppColors.primaryText,
@@ -108,14 +112,20 @@ class _LocationState extends State<Location> {
             child: PageView.builder(
               onPageChanged: (value) {
                 setState(() {
-                  _mapController?.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(target: locationData[value].locationCoords, zoom: 14.0)));
-                  _currentPosition = value;
+                  _mapController?.moveCamera(
+                    CameraUpdate.newCameraPosition(
+                      CameraPosition(
+                        target: locationData[value].locationCoords,
+                        zoom: 14.0,
+                      ),
+                    ),
+                  );
                 });
               },
               itemCount: locationData.length,
               controller: _pageController,
               itemBuilder: (context, index) {
-                return SliderCard();
+                return const SliderCard();
               },
             ),
           ),

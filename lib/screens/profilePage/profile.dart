@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:little_library/config/routes.dart';
 
 import 'package:little_library/theme/colors.dart';
-import 'package:little_library/widgets/buttons.dart';
+import 'package:little_library/widgets/logout_button.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -31,7 +31,7 @@ class Profile extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 50,
                     backgroundColor: AppColors.border,
                     child: Icon(
@@ -110,7 +110,7 @@ class Profile extends StatelessWidget {
                     ),
                   );
                 },
-                child: ProfileElements(
+                child: const ProfileElements(
                     title: 'Upload Profile Picture', icon: Icons.image),
               ),
               SizedBox(height: size.height * 0.02),
@@ -118,16 +118,16 @@ class Profile extends StatelessWidget {
                   onTap: () {
                     Navigator.pushNamed(context, Routes.myBooks);
                   },
-                  child: ProfileElements(icon: Icons.list, title: 'My Books')),
+                  child: const ProfileElements(icon: Icons.list, title: 'My Books')),
               SizedBox(height: size.height * 0.02),
               GestureDetector(
                   onTap: () {
                     Navigator.pushNamed(context, Routes.savedBooks);
                   },
-                  child: ProfileElements(
+                  child: const ProfileElements(
                       icon: Icons.bookmark, title: 'Saved Books')),
               SizedBox(height: size.height * 0.04),
-              LogoutButton(),
+              const LogoutButton(),
             ],
           ),
         ),
@@ -167,7 +167,7 @@ class ProfileElements extends StatelessWidget {
                 color: AppColors.secondary,
               ),
         ),
-        trailing: Icon(
+        trailing: const Icon(
           Icons.arrow_forward_ios,
           color: AppColors.secondary,
           size: 20,

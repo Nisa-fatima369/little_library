@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:little_library/config/routes.dart';
-import 'package:little_library/screens/add_book.dart';
-import 'package:little_library/screens/contact.dart';
-import 'package:little_library/screens/home.dart';
-import 'package:little_library/screens/location.dart';
-import 'package:little_library/screens/profile.dart';
+import 'package:little_library/screens/HomePage/home.dart';
+import 'package:little_library/screens/chatPage/contact.dart';
+import 'package:little_library/screens/exploreBooks/location.dart';
+import 'package:little_library/screens/profilePage/profile.dart';
 import 'package:little_library/theme/colors.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -16,6 +15,7 @@ class PageVieew extends StatefulWidget {
 }
 
 class _PageVieewState extends State<PageVieew> {
+  int? currentIndex;
   int selectedIndex = 0;
   PageController _pageController = PageController();
   List<Widget> screens = [
@@ -58,7 +58,6 @@ class _PageVieewState extends State<PageVieew> {
         children: screens,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        // fixedColor: AppColors.primary,
         backgroundColor: AppColors.primary,
         selectedFontSize: 14,
         unselectedFontSize: 12,
@@ -81,23 +80,23 @@ class _PageVieewState extends State<PageVieew> {
             icon: const Icon(Icons.home),
             label: '',
           ),
-          BottomNavigationBarItem(
-            activeIcon: Container(
-              decoration: BoxDecoration(
-                  color: AppColors.secondary,
-                  borderRadius: BorderRadius.circular(30)),
-              padding: const EdgeInsets.all(8),
-              child: const Icon(
-                FontAwesomeIcons.compass,
-                color: AppColors.background1,
-              ),
-            ),
-            icon: const Icon(
-              FontAwesomeIcons.compass,
-              color: AppColors.secondary,
-            ),
-            label: '',
-          ),
+          // BottomNavigationBarItem(
+          //   activeIcon: Container(
+          //     decoration: BoxDecoration(
+          //         color: AppColors.secondary,
+          //         borderRadius: BorderRadius.circular(30)),
+          //     padding: const EdgeInsets.all(8),
+          //     child: const Icon(
+          //       FontAwesomeIcons.compass,
+          //       color: AppColors.background1,
+          //     ),
+          //   ),
+          //   icon: const Icon(
+          //     FontAwesomeIcons.compass,
+          //     color: AppColors.secondary,
+          //   ),
+          //   label: '',
+          // ),
           const BottomNavigationBarItem(
             icon: Icon(
               Icons.add_circle_outline_rounded,
@@ -119,32 +118,22 @@ class _PageVieewState extends State<PageVieew> {
             icon: const Icon(Icons.chat),
             label: '',
           ),
-          BottomNavigationBarItem(
-            activeIcon: Container(
-              decoration: BoxDecoration(
-                  color: AppColors.secondary,
-                  borderRadius: BorderRadius.circular(30)),
-              padding: const EdgeInsets.all(8),
-              child: const Icon(
-                Icons.person,
-                color: AppColors.background1,
-              ),
-            ),
-            icon: const Icon(Icons.person),
-            label: '',
-          ),
+          //     BottomNavigationBarItem(
+          //       activeIcon: Container(
+          //         decoration: BoxDecoration(
+          //             color: AppColors.secondary,
+          //             borderRadius: BorderRadius.circular(30)),
+          //         padding: const EdgeInsets.all(8),
+          //         child: const Icon(
+          //           Icons.person,
+          //           color: AppColors.background1,
+          //         ),
+          //       ),
+          //       icon: const Icon(Icons.person),
+          //       label: '',
+          //     ),
         ],
       ),
     );
   }
 }
-
-
-// height: MediaQuery.of(context).size.height * 0.1,
-//         decoration: const BoxDecoration(
-//           // color: AppColors.primary,
-//           borderRadius: BorderRadius.only(
-//             topRight: Radius.circular(10),
-//             topLeft: Radius.circular(10),
-//           ),
-//         ),

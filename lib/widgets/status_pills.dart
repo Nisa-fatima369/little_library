@@ -22,7 +22,7 @@ Widget availableStatusPills() {
 Widget unavailableStatusPills() {
   return Container(
     height: 30,
-    width: 110,
+    width: 100,
     decoration: BoxDecoration(
       color: AppColors.lightPink,
     ),

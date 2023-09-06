@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:little_library/widgets/book_card.dart';
+import 'package:little_library/widgets/my_books_card.dart';
 
 class MyBooks extends StatelessWidget {
   const MyBooks({super.key});

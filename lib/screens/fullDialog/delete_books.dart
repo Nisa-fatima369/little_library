@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:little_library/theme/colors.dart';
-import 'package:little_library/widgets/buttons.dart';
+import 'package:little_library/widgets/delete_book_button.dart';
 
 class DeleteBook extends StatelessWidget {
   const DeleteBook({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:little_library/theme/colors.dart';
-import 'package:little_library/widgets/buttons.dart';
+import 'package:little_library/widgets/view_post_button.dart';
 
 class SuccessPost extends StatefulWidget {
   const SuccessPost({
@@ -39,7 +39,7 @@ class _SuccessPostState extends State<SuccessPost> {
               scale: 0.75,
             ),
             SizedBox(height: size.height * 0.03),
-            ViewButton(),
+            const ViewButton(),
           ],
         ),
       ),

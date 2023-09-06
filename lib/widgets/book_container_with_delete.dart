@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:little_library/theme/colors.dart';
 
-Stack deleted_Book_Container(Size size) {
+Widget deleted_Book_Container(Size size) {
   return Stack(
     children: [
       Card(
@@ -15,7 +15,7 @@ Stack deleted_Book_Container(Size size) {
           color: AppColors.grey,
         ),
       ),
-      Positioned(
+      const Positioned(
         right: 10,
         top: 10,
         child: Icon(
