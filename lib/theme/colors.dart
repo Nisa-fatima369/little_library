@@ -19,7 +19,7 @@ class AppColors {
   static const secondaryGradient = Color(0XFF4E3465);
   static const secondaryVariant = Color(0XFF625CA0);
   static const extraColor = Color(0XFFA10035);
-  static const background1 = Color(0XFFF9FDFF);
+  static const background1 = Color(0XFFF9FDFF);  
   static const background2 = Color(0XFFFFFFFF);
   static const border = Color(0XFFDFE1E6);
   static const primaryText = Color(0XFF0F0F0F);
@@ -28,4 +28,6 @@ class AppColors {
   static const hoverColor = Color.fromARGB(255, 233, 230, 230);
   static const placeholderText = Color(0XFF808080);
   static const grey = Color(0XFFF2F2F2);
+  static const toast = Color(0XFF323232);
+
 }

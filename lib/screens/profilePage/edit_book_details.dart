@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:little_library/constants.dart';
 import 'package:little_library/theme/colors.dart';
 import 'package:little_library/utils/lists.dart';
@@ -31,73 +29,73 @@ class _EditBookDetailsState extends State<EditBookDetails> {
   void toggleButton2() {
     setState(() {
       isToggle2 = !isToggle2;
-      _locationDialog(context);
+      // _locationDialog(context);
     });
   }
 
-  _locationDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 50),
-          child: CupertinoActionSheet(
-            title: const Icon(Icons.location_on, color: AppColors.blue),
-            message: Text(
-              'Allow Little Library to access this device\'s location',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            actions: <Widget>[
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
-                child: Icon(
-                  FontAwesomeIcons.earthAsia,
-                  size: 100,
-                  color: AppColors.blue,
-                ),
-              ),
-              CupertinoActionSheetAction(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  'While using the app',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(color: AppColors.blue),
-                ),
-              ),
-              CupertinoActionSheetAction(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  'Only this time',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(color: AppColors.blue),
-                ),
-              ),
-              CupertinoActionSheetAction(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  'Deny',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(color: AppColors.blue),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  // _locationDialog(BuildContext context) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) => Center(
+  //       child: Padding(
+  //         padding: const EdgeInsets.symmetric(horizontal: 50),
+  //         child: CupertinoActionSheet(
+  //           title: const Icon(Icons.location_on, color: AppColors.blue),
+  //           message: Text(
+  //             'Allow Little Library to access this device\'s location',
+  //             style: Theme.of(context).textTheme.bodyMedium,
+  //           ),
+  //           actions: <Widget>[
+  //             const Padding(
+  //               padding: EdgeInsets.symmetric(vertical: 20),
+  //               child: Icon(
+  //                 FontAwesomeIcons.earthAsia,
+  //                 size: 100,
+  //                 color: AppColors.blue,
+  //               ),
+  //             ),
+  //             CupertinoActionSheetAction(
+  //               onPressed: () {
+  //                 Navigator.pop(context);
+  //               },
+  //               child: Text(
+  //                 'While using the app',
+  //                 style: Theme.of(context)
+  //                     .textTheme
+  //                     .bodyMedium!
+  //                     .copyWith(color: AppColors.blue),
+  //               ),
+  //             ),
+  //             CupertinoActionSheetAction(
+  //               onPressed: () {
+  //                 Navigator.pop(context);
+  //               },
+  //               child: Text(
+  //                 'Only this time',
+  //                 style: Theme.of(context)
+  //                     .textTheme
+  //                     .bodyMedium!
+  //                     .copyWith(color: AppColors.blue),
+  //               ),
+  //             ),
+  //             CupertinoActionSheetAction(
+  //               onPressed: () {
+  //                 Navigator.pop(context);
+  //               },
+  //               child: Text(
+  //                 'Deny',
+  //                 style: Theme.of(context)
+  //                     .textTheme
+  //                     .bodyMedium!
+  //                     .copyWith(color: AppColors.blue),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   _optionBottomSheet(BuildContext context, Size size, List<String> options,
       TextEditingController controller) {
@@ -278,7 +276,7 @@ class _EditBookDetailsState extends State<EditBookDetails> {
                     style: Theme.of(context).textTheme.labelLarge,
                   ),
                   SizedBox(height: size.height * 0.005),
-                  const TexxtButton(),
+                  const GalleryButton(),
                   SizedBox(height: size.height * 0.02),
                   Row(
                     children: [

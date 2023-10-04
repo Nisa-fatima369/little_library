@@ -9,12 +9,11 @@ class LocationExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       child: ExpansionTile(
-        tilePadding: EdgeInsets.symmetric(horizontal: 20),
-        childrenPadding: EdgeInsets.symmetric(horizontal: 20),
+        tilePadding: const EdgeInsets.symmetric(horizontal: 20),
+        childrenPadding: const EdgeInsets.symmetric(horizontal: 20),
         iconColor: AppColors.primaryText,
         collapsedIconColor: AppColors.primaryText,
         maintainState: true,
@@ -24,7 +23,7 @@ class LocationExpansionTile extends StatelessWidget {
         ),
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: size.height * 0.02),
+          y15,
           Text(
             'Address Line 1',
             style: Theme.of(context)
@@ -32,14 +31,14 @@ class LocationExpansionTile extends StatelessWidget {
                 .labelLarge!
                 .copyWith(fontWeight: FontWeight.w400),
           ),
-          SizedBox(height: size.height * 0.005),
+          y5,
           TextFormField(
             decoration: kTextField.copyWith(
               hintText: 'Street, Address, Company Name, C/O',
               fillColor: AppColors.grey,
             ),
           ),
-          SizedBox(height: size.height * 0.02),
+          y15,
           Text(
             'City',
             style: Theme.of(context)
@@ -47,14 +46,14 @@ class LocationExpansionTile extends StatelessWidget {
                 .labelLarge!
                 .copyWith(fontWeight: FontWeight.w400),
           ),
-          SizedBox(height: size.height * 0.005),
+          y5,
           TextFormField(
             decoration: kTextField.copyWith(
               hintText: 'Eg. Desa Tasik',
               fillColor: AppColors.grey,
             ),
           ),
-          SizedBox(height: size.height * 0.02),
+          y15,
           Text(
             'Postal/Zip Code',
             style: Theme.of(context)
@@ -62,14 +61,14 @@ class LocationExpansionTile extends StatelessWidget {
                 .labelLarge!
                 .copyWith(fontWeight: FontWeight.w400),
           ),
-          SizedBox(height: size.height * 0.005),
+          y5,
           TextFormField(
             decoration: kTextField.copyWith(
               hintText: 'Eg. 544440',
               fillColor: AppColors.grey,
             ),
           ),
-          SizedBox(height: size.height * 0.02),
+          y15,
           Text(
             'State',
             style: Theme.of(context)
@@ -77,7 +76,7 @@ class LocationExpansionTile extends StatelessWidget {
                 .labelLarge!
                 .copyWith(fontWeight: FontWeight.w400),
           ),
-          SizedBox(height: size.height * 0.005),
+          y5,
           TextFormField(
             decoration: kTextField.copyWith(
               hintText: 'Eg. Kuala Lumpur',

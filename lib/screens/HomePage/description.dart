@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:little_library/constants.dart';
 import 'package:little_library/theme/colors.dart';
-
+import 'package:little_library/utils/lists.dart';
+import 'package:little_library/widgets/chat_button.dart';
 import 'package:little_library/widgets/status_pills.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 
 class BookDetail extends StatefulWidget {
   const BookDetail({super.key});
@@ -12,6 +16,8 @@ class BookDetail extends StatefulWidget {
 
 class _BookDetailState extends State<BookDetail> {
   bool isBookMarked = false;
+  bool isAlreadyChat = false;
+  int currentIndex = 0;
 
   void toggleBookmark() {
     setState(() {
@@ -21,7 +27,8 @@ class _BookDetailState extends State<BookDetail> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    // Size size = MediaQuery.of(context).size;
+    final CarouselController _controller = CarouselController();
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
@@ -49,9 +56,43 @@ class _BookDetailState extends State<BookDetail> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              color: AppColors.disabled,
-              height: 300,
+            Stack(
+              children: [
+                CarouselSlider(
+                  carouselController: _controller,
+                  items: imgList.map((imageUrl) {
+                    return SizedBox(
+                      width: double.infinity,
+                      child: Image.network(imageUrl, fit: BoxFit.cover),
+                    );
+                  }).toList(),
+                  options: CarouselOptions(
+                    viewportFraction: 0.9999,
+                    height: 350.0,
+                    enableInfiniteScroll: true,
+                    onPageChanged: (index, _) {
+                      setState(() {
+                        currentIndex = index;
+                      });
+                    },
+                  ),
+                ),
+                Positioned(
+                  bottom: 10,
+                  left: 70,
+                  right: 70,
+                  child: DotsIndicator(
+                    dotsCount: imgList.length,
+                    position: currentIndex,
+                    decorator: const DotsDecorator(
+                      size: Size(10.0, 10.0),
+                      color: AppColors.placeholderText,
+                      activeColor: AppColors.blue,
+                      spacing: EdgeInsets.all(5.0),
+                    ),
+                  ),
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.all(20.0),
@@ -66,15 +107,17 @@ class _BookDetailState extends State<BookDetail> {
                         'Think and Grow Rich',
                         style: Theme.of(context).textTheme.labelLarge,
                       ),
-                      availableStatusPills(),
+                      SizedBox(width: 100, child: availableStatusPills()),
                     ],
                   ),
+                  y15,
                   Row(
                     children: [
                       Image.asset(
                         'assets/icons/updated_black_24dp.png',
                         color: AppColors.placeholderText,
                       ),
+                      x10,
                       Text(
                         'July 20, 2022, 8:18 p.m by ',
                         style: Theme.of(context).textTheme.bodyMedium,
@@ -88,14 +131,16 @@ class _BookDetailState extends State<BookDetail> {
                       ),
                     ],
                   ),
+                  y15,
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Icon(
                         Icons.location_on,
                         color: AppColors.placeholderText,
                       ),
-                      SizedBox(
-                        width: size.width * 0.8,
+                      x10,
+                      Expanded(
                         child: Text(
                           'Kampung Pulau Penarek, 84400 Sungai Mati, Johor, Malaysia',
                           overflow: TextOverflow.ellipsis,
@@ -105,14 +150,15 @@ class _BookDetailState extends State<BookDetail> {
                       ),
                     ],
                   ),
+                  y15,
                   Row(
                     children: [
                       const Icon(
                         Icons.category,
                         color: AppColors.placeholderText,
                       ),
+                      x10,
                       SizedBox(
-                        width: size.width * 0.8,
                         child: Text(
                           'Self-help',
                           style: Theme.of(context).textTheme.bodyMedium,
@@ -120,23 +166,27 @@ class _BookDetailState extends State<BookDetail> {
                       ),
                     ],
                   ),
+                  y15,
                   Text(
                     'Author',
                     style: Theme.of(context).textTheme.labelLarge,
                   ),
+                  y15,
                   Text(
                     'Napolean Hill',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
+                  y15,
                   Text(
                     'Book Description',
                     style: Theme.of(context).textTheme.labelLarge,
                   ),
+                  y15,
                   Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                     style: Theme.of(context).textTheme.bodyMedium,
                     overflow: TextOverflow.ellipsis,
-                    maxLines: 10,
+                    maxLines: 20,
                   ),
                 ],
               ),
@@ -144,13 +194,8 @@ class _BookDetailState extends State<BookDetail> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
-        extendedPadding: const EdgeInsets.symmetric(horizontal: 30),
-        extendedIconLabelSpacing: 15,
-        label: const Text('Chat'),
-        icon: const Icon(Icons.chat),
-      ),
+      floatingActionButton:
+          isAlreadyChat ? viewChatButton(context) : chatButton(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }

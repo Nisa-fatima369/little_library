@@ -86,39 +86,36 @@ class _HomeState extends State<Home> {
               ),
             ];
           },
-          body: Container(
-            color: AppColors.background1,
-            child: TabBarView(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 210),
-                  child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      return const BookCard();
-                    },
-                    itemCount: 10,
-                  ),
+          body: TabBarView(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 210),
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return const BookCard();
+                  },
+                  itemCount: 10,
                 ),
-                const Text("Articles Body"),
-                Container(
-                  child: const Text("User Body"),
-                ),
-                Container(
-                  child: const Text("Home Body"),
-                ),
-                Container(
-                  child: const Text("Articles Body"),
-                ),
-                Container(
-                  child: const Text("User Body"),
-                ),
-                Container(
-                  child: const Text("User Body"),
-                ),
-              ],
-            ),
+              ),
+              const Text("Articles Body"),
+              Container(
+                child: const Text("User Body"),
+              ),
+              Container(
+                child: const Text("Home Body"),
+              ),
+              Container(
+                child: const Text("Articles Body"),
+              ),
+              Container(
+                child: const Text("User Body"),
+              ),
+              Container(
+                child: const Text("User Body"),
+              ),
+            ],
           ),
         ),
       ),

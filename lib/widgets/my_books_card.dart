@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:little_library/config/routes.dart';
+import 'package:little_library/constants.dart';
 import 'package:little_library/screens/fullDialog/delete_books.dart';
 import 'package:little_library/screens/profilePage/edit_book_details.dart';
 import 'package:little_library/theme/colors.dart';
@@ -21,46 +22,47 @@ class _MyBooksCardState extends State<MyBooksCard> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, Routes.description);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
-        child: SizedBox(
-          height: size.height * 0.13,
+        child: IntrinsicHeight(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Card(
-                clipBehavior: Clip.antiAlias,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadiusDirectional.circular(10),
-                ),
-                child: Container(
-                  height: size.height * 0.11,
-                  width: size.width * 0.2,
-                  color: AppColors.border,
+              Expanded(
+                flex: 3,
+                child: Card(
+                  clipBehavior: Clip.antiAlias,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadiusDirectional.circular(10),
+                  ),
+                  child: Container(
+                    height: 100,
+                    width: 100,
+                    color: AppColors.border,
+                  ),
                 ),
               ),
-              // SizedBox(width: size.width * 0.0001),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Title of Book',
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(fontWeight: FontWeight.w700, fontSize: 19),
-                  ),
-                  SizedBox(height: size.height * 0.009),
-                  SizedBox(
-                    width: size.width * 0.5,
-                    child: Text(
+              x10,
+              Expanded(
+                flex: 7,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Title of Book',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontWeight: FontWeight.w700, fontSize: 19),
+                    ),
+                    y10,
+                    Text(
                       'Description of Book can move to another line Pos 191 batu 3, Jln Salleh, Kampung Bukit Treh, 84000, Johor, Malaysia',
                       overflow: TextOverflow.ellipsis,
                       maxLines: 3,
@@ -69,12 +71,12 @@ class _MyBooksCardState extends State<MyBooksCard> {
                           .bodySmall!
                           .copyWith(color: AppColors.placeholderText),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              SizedBox(width: size.width * 0.009),
-              SizedBox(
-                height: size.height * 0.11,
+              x5,
+              Expanded(
+                flex: 2,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -94,18 +96,18 @@ class _MyBooksCardState extends State<MyBooksCard> {
                                     barrierColor: AppColors.primary,
                                     context: context,
                                     builder: (context) {
-                                      return EditBookDetails();
+                                      return const EditBookDetails();
                                     },
                                   );
                                 },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(
                                       horizontal: 40, vertical: 20),
                                   child: Row(
                                     children: [
-                                      const Icon(Icons.edit),
-                                      SizedBox(width: size.width * 0.02),
-                                      const Text('Edit'),
+                                      Icon(Icons.edit),
+                                      x20,
+                                      Text('Edit'),
                                     ],
                                   ),
                                 ),
@@ -121,18 +123,18 @@ class _MyBooksCardState extends State<MyBooksCard> {
                                     barrierColor: AppColors.background2,
                                     context: context,
                                     builder: (context) {
-                                      return DeleteBook();
+                                      return const DeleteBook();
                                     },
                                   );
                                 },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(
                                       horizontal: 40, vertical: 20),
                                   child: Row(
                                     children: [
-                                      const Icon(Icons.delete),
-                                      SizedBox(width: size.width * 0.02),
-                                      const Text('Delete'),
+                                      Icon(Icons.delete),
+                                      x20,
+                                      Text('Delete'),
                                     ],
                                   ),
                                 ),

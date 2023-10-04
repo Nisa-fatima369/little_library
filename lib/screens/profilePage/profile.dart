@@ -1,8 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:little_library/config/routes.dart';
-
+import 'package:little_library/constants.dart';
 import 'package:little_library/theme/colors.dart';
 import 'package:little_library/widgets/logout_button.dart';
 
@@ -11,7 +10,6 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.background2,
@@ -40,7 +38,7 @@ class Profile extends StatelessWidget {
                       color: AppColors.placeholderText,
                     ),
                   ),
-                  SizedBox(width: size.width * 0.04),
+                  x15,
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,7 +50,7 @@ class Profile extends StatelessWidget {
                             .bodyMedium!
                             .copyWith(fontWeight: FontWeight.w700),
                       ),
-                      SizedBox(height: size.height * 0.01),
+                      y10,
                       Text(
                         'itsme@hotmail.com',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -64,69 +62,70 @@ class Profile extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: size.height * 0.04),
+              y40,
               GestureDetector(
                 onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) => Center(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 50),
-                        child: CupertinoActionSheet(
-                          title:
-                              const Icon(Icons.folder, color: AppColors.blue),
-                          message: Text(
-                            'Allow Little Library to access photos, media, and files on your device?',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          actions: <CupertinoActionSheetAction>[
-                            CupertinoActionSheetAction(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text(
-                                'Allow',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(color: AppColors.blue),
-                              ),
-                            ),
-                            CupertinoActionSheetAction(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text(
-                                'Deny',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(color: AppColors.blue),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
+                  //   showDialog(
+                  //     context: context,
+                  //     builder: (BuildContext context) => Center(
+                  //       child: Padding(
+                  //         padding: const EdgeInsets.symmetric(horizontal: 50),
+                  //         child: CupertinoActionSheet(
+                  //           title:
+                  //               const Icon(Icons.folder, color: AppColors.blue),
+                  //           message: Text(
+                  //             'Allow Little Library to access photos, media, and files on your device?',
+                  //             style: Theme.of(context).textTheme.bodyMedium,
+                  //           ),
+                  //           actions: <CupertinoActionSheetAction>[
+                  //             CupertinoActionSheetAction(
+                  //               onPressed: () {
+                  //                 Navigator.pop(context);
+                  //               },
+                  //               child: Text(
+                  //                 'Allow',
+                  //                 style: Theme.of(context)
+                  //                     .textTheme
+                  //                     .bodyMedium!
+                  //                     .copyWith(color: AppColors.blue),
+                  //               ),
+                  //             ),
+                  //             CupertinoActionSheetAction(
+                  //               onPressed: () {
+                  //                 Navigator.pop(context);
+                  //               },
+                  //               child: Text(
+                  //                 'Deny',
+                  //                 style: Theme.of(context)
+                  //                     .textTheme
+                  //                     .bodyMedium!
+                  //                     .copyWith(color: AppColors.blue),
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   );
                 },
                 child: const ProfileElements(
                     title: 'Upload Profile Picture', icon: Icons.image),
               ),
-              SizedBox(height: size.height * 0.02),
+              y20,
               GestureDetector(
                   onTap: () {
                     Navigator.pushNamed(context, Routes.myBooks);
                   },
-                  child: const ProfileElements(icon: Icons.list, title: 'My Books')),
-              SizedBox(height: size.height * 0.02),
+                  child: const ProfileElements(
+                      icon: Icons.list, title: 'My Books')),
+              y20,
               GestureDetector(
                   onTap: () {
                     Navigator.pushNamed(context, Routes.savedBooks);
                   },
                   child: const ProfileElements(
                       icon: Icons.bookmark, title: 'Saved Books')),
-              SizedBox(height: size.height * 0.04),
+              y40,
               const LogoutButton(),
             ],
           ),

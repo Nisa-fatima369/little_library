@@ -6,6 +6,7 @@ import 'package:little_library/theme/colors.dart';
 class Reusable extends StatelessWidget {
   final String hintText;
   final Icon icon;
+  final Widget? suffixIcon;
   final bool? obscureText;
   final bool? enable;
   final TextEditingController controller;
@@ -16,6 +17,7 @@ class Reusable extends StatelessWidget {
     super.key,
     required this.hintText,
     required this.icon,
+    this.suffixIcon,
     this.obscureText,
     this.enable,
     required this.controller,
@@ -42,7 +44,9 @@ class Reusable extends StatelessWidget {
         keyboardType: keyboardType,
         validator: validattor,
         controller: controller,
+        obscureText: obscureText ?? false,
         decoration: kTextField.copyWith(
+          suffixIcon: suffixIcon,
           hintText: hintText,
           prefixIcon: icon,
         ),

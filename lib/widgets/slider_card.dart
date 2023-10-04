@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:little_library/config/routes.dart';
+import 'package:little_library/constants.dart';
 import 'package:little_library/theme/colors.dart';
 import 'package:little_library/widgets/status_pills.dart';
 
@@ -43,6 +44,7 @@ class _SliderCardState extends State<SliderCard> {
                               .bodyMedium!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
+                        y5,
                         Text(
                           'Description of Book can move to another line line line line line line line line line ',
                           overflow: TextOverflow.ellipsis,
@@ -52,6 +54,7 @@ class _SliderCardState extends State<SliderCard> {
                               .bodySmall!
                               .copyWith(color: AppColors.placeholderText),
                         ),
+                        y5,
                         Row(
                           children: [
                             const CircleAvatar(
@@ -62,6 +65,7 @@ class _SliderCardState extends State<SliderCard> {
                                 color: AppColors.background2,
                               ),
                             ),
+                            x5,
                             Text(
                               'Username',
                               overflow: TextOverflow.ellipsis,
@@ -72,13 +76,14 @@ class _SliderCardState extends State<SliderCard> {
                       ],
                     ),
                   ),
+                  x10,
                   SizedBox(
                     height: 110,
                     width: 120,
                     child: Card(
                       clipBehavior: Clip.antiAlias,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadiusDirectional.circular(10),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       child: Container(
                         color: AppColors.border,
@@ -87,7 +92,7 @@ class _SliderCardState extends State<SliderCard> {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              y10,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -115,8 +120,8 @@ class _SliderCardState extends State<SliderCard> {
                       ),
                     ),
                   ),
-                  Icon(Icons.bookmark_outline, color: AppColors.secondary),
-                  availableStatusPills(),
+                  const Icon(Icons.bookmark_outline, color: AppColors.secondary),
+                  SizedBox(width: 110, child: unavailableStatusPills()),
                 ],
               ),
             ],

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:little_library/config/routes.dart';
+import 'package:little_library/constants.dart';
 import 'package:little_library/theme/colors.dart';
 import 'package:little_library/widgets/textfield_rectangle.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -12,14 +15,19 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _isObscure = true;
+  bool _isLoading = false;
+
+  bool isValidEmail(String email) {
+    return RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
         child: Center(
@@ -41,19 +49,19 @@ class _SignupState extends State<Signup> {
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headlineLarge,
                   ),
-                  SizedBox(height: size.height * 0.02),
+                  y20,
                   Text(
                     'Create your account now to chat and explore',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  SizedBox(height: size.height * 0.02),
+                  y20,
                   Image.asset(
                     'assets/images/signupIllustration.png',
-                    height: size.height * 0.2,
+                    // height: 200,
                     fit: BoxFit.contain,
                   ),
-                  SizedBox(height: size.height * 0.02),
+                  y20,
                   Reusable(
                     hintText: 'Username',
                     keyboardType: TextInputType.name,
@@ -61,37 +69,61 @@ class _SignupState extends State<Signup> {
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(
                         RegExp(r"[a-zA-Z]+|\s"),
-                      )
+                      ),
                     ],
-                    validattor: (val) {
-                      if (!val!.isValidName) return 'Enter valid name';
+                    validattor: (value) {
+                      if (value!.isEmpty) {
+                        return 'Username is required';
+                      }
+                      return null;
                     },
-                    controller: usernameController,
+                    controller: _usernameController,
                   ),
-                  SizedBox(height: size.height * 0.02),
+                  y20,
                   Reusable(
                     hintText: 'Email',
                     icon: const Icon(Icons.email),
                     keyboardType: TextInputType.emailAddress,
                     inputFormatters: [],
-                    controller: emailController,
-                    validattor: (val) {
-                      if (!val!.isValidName) return 'Enter valid email';
+                    controller: _emailController,
+                    validattor: (value) {
+                      if (value!.isEmpty) {
+                        return 'Email is required';
+                      } else if (!isValidEmail(value)) {
+                        return 'Please enter a valid email address';
+                      }
+                      return null;
                     },
                   ),
-                  SizedBox(height: size.height * 0.02),
+                  y20,
                   Reusable(
                     hintText: 'Password',
                     keyboardType: TextInputType.visiblePassword,
                     icon: const Icon(Icons.lock),
-                    obscureText: true,
+                    obscureText: _isObscure,
                     inputFormatters: [],
-                    controller: passwordController,
-                    validattor: (val) {
-                      if (!val!.isValidPassword) return 'Enter valid password';
+                    controller: _passwordController,
+                    suffixIcon: InkWell(
+                      child: Icon(
+                        _isObscure ? Icons.visibility : Icons.visibility_off,
+                        color: AppColors.secondary,
+                      ),
+                      onTap: () {
+                        setState(() {
+                          _isObscure = !_isObscure;
+                        });
+                      },
+                    ),
+                    validattor: (value) {
+                      if (value!.isEmpty) {
+                        return 'Password is required';
+                      } else if (value.length < 6) {
+                        return 'Password must be at least 6 characters';
+                      }
+                      return null;
                     },
                   ),
-                  SizedBox(height: size.height * 0.05),
+                  y40,
                   SizedBox(
                     height: 55,
                     child: TextButton(
@@ -99,33 +131,63 @@ class _SignupState extends State<Signup> {
                         backgroundColor:
                             MaterialStateProperty.all(AppColors.primary),
                       ),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              duration: Duration(milliseconds: 100),
-                              content: Text('Processing data'),
+                      onPressed: _isLoading
+                          ? null
+                          : () async {
+                              if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  _isLoading = true;
+                                });
+                                try {
+                                  UserCredential userCredential =
+                                      await FirebaseAuth.instance
+                                          .createUserWithEmailAndPassword(
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                  );
+                                  await FirebaseFirestore.instance
+                                      .collection('users')
+                                      .doc(userCredential.user!.uid)
+                                      .set({
+                                    'username': _usernameController.text,
+                                    'email': _emailController.text,
+                                  });
+                                  Navigator.pushNamed(
+                                    context,
+                                    Routes.loginScreen,
+                                  );
+                                } on FirebaseAuthException catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor: AppColors.failure,
+                                      content: Text(
+                                          e.message ?? 'Something went wrong'),
+                                    ),
+                                  );
+                                } finally {
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
+                                }
+                              }
+                            },
+                      child: _isLoading
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                              color: AppColors.background2,
+                            ))
+                          : Text(
+                              'CREATE ACCOUNT',
+                              style: Theme.of(context).textTheme.labelLarge,
                             ),
-                          );
-                        }
-                        Navigator.pushNamed(
-                          context,
-                          Routes.loginScreen,
-                        );
-                      },
-                      child: Text(
-                        'CREATE ACCOUNT',
-                        style: Theme.of(context).textTheme.labelLarge,
-                      ),
                     ),
                   ),
-                  SizedBox(height: size.height * 0.05),
+                  y40,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text('Have an existing account?',
                           style: Theme.of(context).textTheme.bodyLarge),
-                      // SizedBox(width: 10),
                       GestureDetector(
                         onTap: () => Navigator.pushNamed(
                           context,
@@ -151,30 +213,4 @@ class _SignupState extends State<Signup> {
   }
 }
 
-extension extString on String {
-  bool get isValidEmail {
-    final emailRegExp = RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-    return emailRegExp.hasMatch(this);
-  }
 
-  bool get isValidName {
-    final nameRegExp =
-        new RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
-    return nameRegExp.hasMatch(this);
-  }
-
-  bool get isValidPassword {
-    final passwordRegExp = RegExp(
-        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\><*~]).{8,}/pre>');
-    return passwordRegExp.hasMatch(this);
-  }
-
-  bool get isNotNull {
-    return this != null;
-  }
-
-  bool get isValidPhone {
-    final phoneRegExp = RegExp(r"^\+?0[0-9]{10}$");
-    return phoneRegExp.hasMatch(this);
-  }
-}

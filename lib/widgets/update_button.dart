@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:little_library/screens/fullDialog/failed_update.dart';
+import 'package:little_library/screens/fullDialog/successfully_update.dart';
 import 'package:little_library/theme/colors.dart';
 
 class UpdateButton extends StatelessWidget {
@@ -9,19 +9,18 @@ class UpdateButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
         showDialog(
           barrierColor: AppColors.background2,
           context: context,
           builder: (context) {
-            return const FailedUpdate();
+            return const SuccessfullyUpdate();
           },
         );
       },
       child: Container(
-        height: size.height * 0.07,
+        height: 60,
         decoration: BoxDecoration(
           color: AppColors.primary,
           borderRadius: BorderRadius.circular(10),

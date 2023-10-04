@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:little_library/constants.dart';
 import 'package:little_library/modal/location_modal.dart';
-import 'package:little_library/utils/lists.dart';
 import 'package:little_library/theme/colors.dart';
+import 'package:little_library/utils/lists.dart';
 import 'package:little_library/widgets/slider_card.dart';
 
 class Location extends StatefulWidget {
@@ -18,6 +18,7 @@ class _LocationState extends State<Location> {
   GoogleMapController? _mapController;
   final PageController _pageController = PageController(viewportFraction: 0.8);
   List<Marker> allMarkers = [];
+  int currentIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -32,6 +33,8 @@ class _LocationState extends State<Location> {
       );
     }
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -73,35 +76,44 @@ class _LocationState extends State<Location> {
           ),
           Positioned(
             top: 130,
-            left: 12,
+            left: 20,
             right: 0,
-            child: DefaultTabController(
-              length: tabs.length,
-              child: TabBar(
-                indicatorSize: TabBarIndicatorSize.tab,
-                labelStyle: Theme.of(context).textTheme.bodyMedium,
-                indicator: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(22),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: List.generate(
+                  tabs.length,
+                  (index) {
+                    return InkWell(
+                      splashColor: AppColors.border,
+                      onTap: () {
+                        setState(() {
+                          currentIndex = index;
+                        });
+                      },
+                      child: AnimatedContainer(
+                        curve: Curves.easeInOut,
+                        duration: const Duration(microseconds: 300),
+                        margin: const EdgeInsets.symmetric(horizontal: 5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: currentIndex == index
+                              ? AppColors.primary
+                              : AppColors.background2,
+                          borderRadius: BorderRadius.circular(28),
+                        ),
+                        child: Text(
+                          tabs[index],
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: AppColors.secondary),
+                        ),
+                      ),
+                    );
+                  },
                 ),
-                splashBorderRadius: BorderRadius.circular(28),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 5,
-                  vertical: 5,
-                ),
-                isScrollable: true,
-                unselectedLabelColor: AppColors.primaryText,
-                labelColor: AppColors.primaryText,
-                tabs: tabs
-                    .map((String name) => Tab(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              name,
-                            ),
-                          ),
-                        ))
-                    .toList(),
               ),
             ),
           ),
@@ -134,3 +146,22 @@ class _LocationState extends State<Location> {
     );
   }
 }
+
+
+          // location.requestPermission().then((value) async {
+//       if (value == PermissionStatus.granted) {
+//         location.getLocation().then((value) {
+//           print(value);
+//         });
+//       }
+//     }).catchError((onError) {
+//       location.requestPermission().then((value) async {
+//         if (value == PermissionStatus.granted) {
+//           location.getLocation().then((value) {
+//             print(value);
+//           });
+//         }
+//       });
+//     });
+
+  // Location location = Location();

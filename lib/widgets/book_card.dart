@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:little_library/config/routes.dart';
 import 'package:little_library/theme/colors.dart';
 import 'package:little_library/widgets/status_pills.dart';
@@ -21,33 +20,22 @@ class _BookCardState extends State<BookCard> {
       isBookMarked = !isBookMarked;
     });
 
-    // Fluttertoast.showToast(
-    //   msg: isBookMarked ? 'Book saved' : 'Book failed to save',
-    //   toastLength: Toast.LENGTH_SHORT,
-    //   gravity: ToastGravity.BOTTOM_RIGHT,
-    //   timeInSecForIosWeb: 1,
-    //   backgroundColor: AppColors.placeholderText,
-    //   textColor: AppColors.background2,
-    //   webBgColor: isBookMarked ? '#00C851' : '#ff4444',
-    //   webPosition: "center",
-    //   fontSize: 30,
-    //   // webIcon: ""
-    // );
-
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         behavior: SnackBarBehavior.floating,
-        width: 180,
+        width: isBookMarked ? 120 : 160,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
         content: Text(
           isBookMarked ? 'Book saved' : 'Book failed to save',
           textAlign: TextAlign.center,
         ),
         duration: const Duration(seconds: 1),
-        backgroundColor: Colors.black.withOpacity(0.9),
+        backgroundColor: AppColors.toast,
       ),
     );
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +48,7 @@ class _BookCardState extends State<BookCard> {
         child: IntrinsicHeight(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
             children: [
               Expanded(
                 flex: 4,
@@ -83,13 +72,19 @@ class _BookCardState extends State<BookCard> {
                     Text(
                       'Title of Book',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontWeight: FontWeight.w500),
                     ),
                     Text(
                       'Description of Book can move to another line line line line line line line line line ',
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.placeholderText),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(color: AppColors.placeholderText),
                     ),
                     Row(
                       children: [
@@ -124,11 +119,15 @@ class _BookCardState extends State<BookCard> {
                       IconButton(
                         icon: Icon(
                           isBookMarked ? Icons.bookmark : Icons.bookmark_border,
-                          color: isBookMarked ? const Color.fromARGB(255, 123, 75, 165) : AppColors.secondary,
+                          color: isBookMarked
+                              ? const Color.fromARGB(255, 123, 75, 165)
+                              : AppColors.secondary,
                         ),
                         onPressed: toggleBookmark,
                       ),
-                      isBookMarked ? unavailableStatusPills() : availableStatusPills()
+                      isBookMarked
+                          ? unavailableStatusPills()
+                          : availableStatusPills()
                     ],
                   ),
                 ),

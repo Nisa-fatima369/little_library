@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:little_library/constants.dart';
 import 'package:little_library/theme/colors.dart';
 
 class Messages extends StatelessWidget {
@@ -24,9 +25,9 @@ class Messages extends StatelessWidget {
   }
 }
 
-Container bookParameters(Size size, BuildContext context) {
+Container bookParameters(BuildContext context) {
   return Container(
-    height: size.height * 0.10,
+    height: 100,
     width: double.infinity,
     padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
     decoration: BoxDecoration(
@@ -41,20 +42,20 @@ Container bookParameters(Size size, BuildContext context) {
             borderRadius: BorderRadiusDirectional.circular(10),
           ),
           child: Container(
-            height: size.height * 0.9,
-            width: size.width * 0.16,
+            height: 70,
+            width: 70,
             color: AppColors.border,
           ),
         ),
-        SizedBox(width: size.width * 0.009),
+        x5,
         Text(
           'Think & Grow Rich',
           style: Theme.of(context).textTheme.labelLarge,
         ),
-        Expanded(child: SizedBox()),
+        const Expanded(child: SizedBox()),
         GestureDetector(
           onTap: () {},
-          child: Icon(
+          child: const Icon(
             Icons.close,
             color: AppColors.disabled,
             size: 30,

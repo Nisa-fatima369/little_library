@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:little_library/config/routes.dart';
 import 'package:little_library/screens/HomePage/home.dart';
+import 'package:little_library/screens/addBookPage/add_book.dart';
 import 'package:little_library/screens/chatPage/contact.dart';
 import 'package:little_library/screens/exploreBooks/location.dart';
 import 'package:little_library/screens/profilePage/profile.dart';
@@ -15,24 +15,30 @@ class PageVieew extends StatefulWidget {
 }
 
 class _PageVieewState extends State<PageVieew> {
-  int? currentIndex;
+  // int? currentIndex;
   int selectedIndex = 0;
   PageController pageController = PageController();
   List<Widget> screens = [
     const Home(),
     const Location(),
-    Container(),
+    const SizedBox.shrink(),
     const Contacts(),
     const Profile(),
   ];
 
-  _animateToPage(int pageIndex) {
-    pageController.animateToPage(
-      pageIndex,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
+  void _animateToPage(int pageIndex) {
+    setState(() {
+      selectedIndex = pageIndex;
+    });
   }
+
+  final List<Map<String, dynamic>> items = [
+    {'icon': Icons.home},
+    {'icon': Icons.explore},
+    {'icon': Icons.add},
+    {'icon': Icons.chat},
+    {'icon': Icons.person},
+  ];
 
   @override
   void initState() {
@@ -46,89 +52,73 @@ class _PageVieewState extends State<PageVieew> {
 
   @override
   Widget build(BuildContext context) {
+    // final isAddBook = selectedIndex == 2;
     return Scaffold(
-      body: PageView(
-        controller: pageController,
-        onPageChanged: (value) {
-          setState(() {
-            selectedIndex = value;
-          });
-        },
-        children: screens,
+      body: SafeArea(
+        child: screens[selectedIndex],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: AppColors.primary,
-        selectedFontSize: 14,
-        unselectedFontSize: 12,
-        unselectedItemColor: AppColors.secondary,
-        currentIndex: selectedIndex,
-        onTap: _animateToPage,
-        showUnselectedLabels: true,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            backgroundColor: AppColors.primary,
-            activeIcon: Container(
-              decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(30)),
-              padding: const EdgeInsets.all(8),
-              child: const Icon(
-                Icons.home,
-                color: AppColors.background1,
+      bottomNavigationBar: AnimatedContainer(
+        duration: const Duration(milliseconds: 500),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+        decoration: const BoxDecoration(color: AppColors.primary),
+        child: Row(
+          children: items.asMap().entries.map((item) {
+            final isCurrent = item.key == selectedIndex;
+
+            return Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  if (item.key != 2) {
+                    _animateToPage(item.key);
+                  } else {
+                    final media = MediaQueryData.fromView(View.of(context));
+                    showModalBottomSheet(
+                      constraints: BoxConstraints(
+                        maxHeight: media.size.height - media.padding.top,
+                        minHeight: media.size.height - media.padding.top,
+                      ),
+                      isScrollControlled: true,
+                      isDismissible: false,
+                      enableDrag: false,
+                      context: context,
+                      builder: (context) {
+                        return const AddBook();
+                      },
+                    );
+                  }
+                },
+                child: item.key == 2
+                    ? Image.asset(
+                        'assets/icons/add_box.png',
+                        height: 30,
+                        width: 30,
+                      )
+                    : Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: isCurrent
+                              ? AppColors.secondary
+                              : Colors.transparent,
+                        ),
+                        child: Icon(
+                          item.value['icon'],
+                          size: isCurrent ? 30 : 26,
+                          color: isCurrent
+                              ? AppColors.background2
+                              : AppColors.secondary,
+                        ),
+                      ),
               ),
-            ),
-            icon: const Icon(Icons.home),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            activeIcon: Container(
-              decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(30)),
-              padding: const EdgeInsets.all(8),
-              child: const Icon(
-                FontAwesomeIcons.compass,
-                color: AppColors.background1,
-              ),
-            ),
-            icon: const Icon(
-              FontAwesomeIcons.compass,
-              color: AppColors.secondary,
-            ),
-            label: '',
-          ),
-          const BottomNavigationBarItem(
-            icon: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.add_circle_outline_rounded,
-                color: AppColors.failure,
-              ),
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            activeIcon: Container(
-              decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(30)),
-              padding: const EdgeInsets.all(8),
-              child: const Icon(
-                Icons.chat,
-                color: AppColors.background1,
-              ),
-            ),
-            icon: const Icon(Icons.chat),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            activeIcon: Container(
-              decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(30)),
-              padding: const EdgeInsets.all(8),
-              child: const Icon(
-                Icons.person,
-                color: AppColors.background1,
-              ),
-            ),
-            icon: const Icon(Icons.person),
-            label: '',
-          ),
-        ],
+            );
+          }).toList(),
+        ),
       ),
     );
   }
 }
+
+
+    
+

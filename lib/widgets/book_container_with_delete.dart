@@ -10,8 +10,8 @@ Widget deleted_Book_Container(Size size) {
           borderRadius: BorderRadiusDirectional.circular(10),
         ),
         child: Container(
-          height: size.height * 0.13,
-          width: size.width * 0.27,
+          height: 130,
+          width: 120,
           color: AppColors.grey,
         ),
       ),

@@ -1,12 +1,38 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:little_library/config/routes.dart';
 import 'package:little_library/theme/colors.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    Future.delayed(
+      const Duration(seconds: 1),
+      () {
+        navigate();
+      },
+    );
+    super.initState();
+  }
+
+  void navigate() async {
+    final isLoggedIn = FirebaseAuth.instance.currentUser != null;
+    if (isLoggedIn) {
+      Navigator.pushReplacementNamed(context, Routes.pageView);
+    } else {
+      Navigator.pushReplacementNamed(context, Routes.signupScreen);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppColors.primary,
       body: Center(
@@ -18,15 +44,13 @@ class SplashScreen extends StatelessWidget {
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset(
                 'assets/icons/Appicon.png',
                 color: AppColors.secondary,
-                height: size.height * 0.05,
+                height: 100,
                 fit: BoxFit.contain,
               ),
-              // SizedBox(height: size.height * 0.02),
               Text(
                 'Little Library',
                 style: Theme.of(context)
@@ -41,3 +65,5 @@ class SplashScreen extends StatelessWidget {
     );
   }
 }
+
+
