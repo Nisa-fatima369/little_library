@@ -1,40 +1,42 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:little_library/constants.dart';
+import 'package:little_library/modal/book_modal.dart';
+import 'package:little_library/screens/fullDialog/success_post.dart';
 import 'package:little_library/theme/colors.dart';
 import 'package:little_library/utils/lists.dart';
-import 'package:little_library/widgets/add_button.dart';
-import 'package:little_library/widgets/book_container_with_delete.dart';
 import 'package:little_library/widgets/buttons.dart';
 import 'package:little_library/widgets/location_expansion.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class AddBook extends StatefulWidget {
-  const AddBook({super.key});
-
+  final Book? book;
+  const AddBook({super.key, this.book});
   @override
   State<AddBook> createState() => _AddBookState();
 }
 
 class _AddBookState extends State<AddBook> {
-  final TextEditingController controller = TextEditingController();
+  bool toggle = true;
+  final nameController = TextEditingController();
+  final categoryController = TextEditingController();
+  final authorController = TextEditingController();
+  final descriptionController = TextEditingController();
 
-  bool isToggle1 = false;
-  bool isToggle2 = false;
+  final addressLineController = TextEditingController();
+  final cityController = TextEditingController();
+  final postalController = TextEditingController();
+  final stateController = TextEditingController();
 
-  void toggleButton1() {
-    setState(() {
-      isToggle1 = !isToggle1;
-    });
-  }
+  String? url;
+  File? image;
 
-  void toggleButton2() {
-    setState(() {
-      // isToggle2 = !isToggle2;
-    });
-  }
-
-  _optionBottomSheet(BuildContext context, Size size, List<String> options,
-      TextEditingController controller) {
-    return showModalBottomSheet(
+  Future<String?> _optionBottomSheet(
+      BuildContext context, Size size, List<String> options) async {
+    return await showModalBottomSheet(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
@@ -59,8 +61,7 @@ class _AddBookState extends State<AddBook> {
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () {
-                        controller.text = options[index];
-                        Navigator.pop(context);
+                        Navigator.pop(context, options[index]);
                       },
                       child: ListTile(
                         leading: const Icon(Icons.circle_outlined,
@@ -108,16 +109,14 @@ class _AddBookState extends State<AddBook> {
                           'Book Available',
                           style: Theme.of(context).textTheme.labelLarge,
                         ),
-                        GestureDetector(
-                          onTap: toggleButton1,
-                          child: Icon(
-                            isToggle1 ? Icons.toggle_off : Icons.toggle_on,
-                            color: isToggle1
-                                ? AppColors.border
-                                : AppColors.success,
-                            size: 60,
-                          ),
-                        ),
+                        Switch(
+                            activeColor: AppColors.success,
+                            value: toggle,
+                            onChanged: (value) {
+                              setState(() {
+                                toggle = value;
+                              });
+                            }),
                       ],
                     ),
                     y15,
@@ -127,6 +126,7 @@ class _AddBookState extends State<AddBook> {
                     ),
                     y5,
                     TextFormField(
+                      controller: nameController,
                       decoration: kTextField.copyWith(
                         hintText: 'Eg. Journey to the West',
                         fillColor: AppColors.grey,
@@ -141,6 +141,7 @@ class _AddBookState extends State<AddBook> {
                     TextFormField(
                       readOnly: true,
                       enabled: true,
+                      controller: categoryController,
                       decoration: kTextField.copyWith(
                         fillColor: AppColors.grey,
                         hintText: 'Eg. Fiction',
@@ -150,8 +151,13 @@ class _AddBookState extends State<AddBook> {
                           size: 20,
                         ),
                       ),
-                      onTap: () {
-                        _optionBottomSheet(context, size, options, controller);
+                      onTap: () async {
+                        final value =
+                            await _optionBottomSheet(context, size, options);
+                        if (value != null) {
+                          categoryController.text = value;
+                          setState(() {});
+                        }
                       },
                     ),
                     y15,
@@ -161,35 +167,22 @@ class _AddBookState extends State<AddBook> {
                     ),
                     y5,
                     TextFormField(
+                      controller: authorController,
                       decoration: kTextField.copyWith(
                         hintText: 'Eg. Marry Jane',
                         fillColor: AppColors.grey,
                       ),
                     ),
                     y15,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Set current location as address?',
-                          style: Theme.of(context).textTheme.labelLarge,
-                        ),
-                        GestureDetector(
-                          onTap: toggleButton2,
-                          child: Icon(
-                            isToggle2 ? Icons.toggle_off : Icons.toggle_on,
-                            color: isToggle2
-                                ? AppColors.border
-                                : AppColors.success,
-                            size: 60,
-                          ),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
-              const LocationExpansionTile(),
+              LocationExpansionTile(
+                addressLineController: addressLineController,
+                cityController: cityController,
+                postalController: postalController,
+                stateController: stateController,
+              ),
               y15,
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -202,7 +195,8 @@ class _AddBookState extends State<AddBook> {
                     ),
                     y5,
                     TextFormField(
-                      maxLines: 10,
+                      maxLines: 7,
+                      controller: descriptionController,
                       decoration: kTextField.copyWith(
                         hintText:
                             'Describe what the book is about and include details a reader might be interested in, people do love some stories!',
@@ -217,15 +211,83 @@ class _AddBookState extends State<AddBook> {
                     y5,
                     const GalleryButton(),
                     y15,
-                    Row(
-                      children: [
-                        deleted_Book_Container(size),
-                        x5,
-                        deleted_Book_Container(size),
-                      ],
+                    GestureDetector(
+                      onTap: () async {
+                        String id = FirebaseFirestore.instance
+                            .collection('book')
+                            .doc()
+                            .id;
+                       
+                        UploadTask uploadTask = FirebaseStorage.instance
+                            .ref()
+                            .child('books/${widget.book!.id}')
+                            .putFile(image!);
+                        await uploadTask.snapshotEvents.listen((event) {
+                          if (event.state == TaskState.success) {
+                            event.ref.getDownloadURL().then((url) async {
+                              await FirebaseFirestore.instance
+                                  .collection('books')
+                                  .doc(id)
+                                  .set({
+                                'id': id,
+                                'title': nameController.text,
+                                'author': authorController.text,
+                                'description': descriptionController.text,
+                                'dateTime': DateTime.now(),
+                                'addressLine': addressLineController.text,
+                                'city': cityController.text,
+                                'postal': postalController.text,
+                                'state': stateController.text,
+                                'category': categoryController.text,
+                                'imageUrl': url,
+                                'userId':
+                                    FirebaseAuth.instance.currentUser!.uid,
+                              });
+                            });
+                          }
+                        });
+                        // await FirebaseFirestore.instance
+                        //     .collection('book')
+                        //     .doc(id)
+                        //     .set({
+                        //   'id': id,
+                        //   'title': nameController.text,
+                        //   'author': authorController.text,
+                        //   'description': descriptionController.text,
+                        //   'dateTime': DateTime.now(),
+                        //   'addressLine': addressLineController.text,
+                        //   'city': cityController.text,
+                        //   'postal': postalController.text,
+                        //   'state': stateController.text,
+                        //   'category': categoryController.text,
+                        //   'imageUrl': url,
+                        //   'userId': FirebaseAuth.instance.currentUser!.uid,
+                        // });
+                        showDialog(
+                          barrierColor: AppColors.background2,
+                          context: context,
+                          builder: (context) {
+                            return const SuccessPost();
+                          },
+                        );
+                      },
+                      child: Container(
+                        height: 60,
+                        decoration: BoxDecoration(
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'ADD',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge!
+                                .copyWith(color: AppColors.secondary),
+                          ),
+                        ),
+                      ),
                     ),
-                    y15,
-                    const AddButton(),
                     y15,
                   ],
                 ),
@@ -237,3 +299,5 @@ class _AddBookState extends State<AddBook> {
     );
   }
 }
+
+

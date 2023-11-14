@@ -250,7 +250,7 @@ class _EditBookDetailsState extends State<EditBookDetails> {
                 ],
               ),
             ),
-            const LocationExpansionTile(),
+            // const LocationExpansionTile(),
             SizedBox(height: size.height * 0.03),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -278,15 +278,9 @@ class _EditBookDetailsState extends State<EditBookDetails> {
                   SizedBox(height: size.height * 0.005),
                   const GalleryButton(),
                   SizedBox(height: size.height * 0.02),
-                  Row(
-                    children: [
-                      deleted_Book_Container(size),
-                      SizedBox(width: size.width * 0.03),
-                      deleted_Book_Container(size),
-                    ],
-                  ),
+                  
                   SizedBox(height: size.height * 0.02),
-                  UpdateButton(),
+                  const UpdateButton(),
                   SizedBox(height: size.height * 0.02),
                 ],
               ),

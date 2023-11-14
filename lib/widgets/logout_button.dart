@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:little_library/theme/colors.dart';
 
@@ -9,8 +10,9 @@ class LogoutButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        
+      onTap: () async {
+        await FirebaseAuth.instance.signOut();
+        Navigator.pop(context);
       },
       child: Container(
         height: 60,

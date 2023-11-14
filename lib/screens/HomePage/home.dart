@@ -26,6 +26,8 @@ class _HomeState extends State<Home> {
                 handle:
                     NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 sliver: SliverAppBar(
+                  leading: const SizedBox.shrink(),
+                  leadingWidth: 0.0,
                   backgroundColor: AppColors.background1,
                   title: Padding(
                     padding: const EdgeInsets.all(8.0),

@@ -5,6 +5,8 @@ import 'package:little_library/modal/location_modal.dart';
 import 'package:little_library/theme/colors.dart';
 import 'package:little_library/utils/lists.dart';
 import 'package:little_library/widgets/slider_card.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:geolocator/geolocator.dart';
 
 class Location extends StatefulWidget {
   const Location({super.key});
@@ -19,9 +21,11 @@ class _LocationState extends State<Location> {
   final PageController _pageController = PageController(viewportFraction: 0.8);
   List<Marker> allMarkers = [];
   int currentIndex = 0;
+
   @override
   void initState() {
     super.initState();
+    _requestLocationPermission();
     for (var element in locationData) {
       allMarkers.add(
         Marker(
@@ -34,7 +38,69 @@ class _LocationState extends State<Location> {
     }
   }
 
-  
+  Future<void> _requestLocationPermission() async {
+    PermissionStatus status = await Permission.location.status;
+
+    if (status.isGranted) {
+      _handleLocationAccess();
+    } else if (status.isDenied) {
+      PermissionStatus newStatus = await Permission.location.request();
+
+      if (newStatus.isGranted) {
+        _handleLocationAccess();
+      } else if (newStatus.isPermanentlyDenied) {
+        _showSettingsDialog();
+      }
+    } else if (status.isPermanentlyDenied) {
+      _showSettingsDialog();
+    }
+  }
+
+  void _handleLocationAccess() {
+    _getCurrentLocation();
+  }
+
+  void _getCurrentLocation() async {
+    try {
+      var position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      double latitude = position.latitude;
+      double longitude = position.longitude;
+
+      print("Latitude: $latitude, Longitude: $longitude");
+    } catch (e) {
+      print("Error getting location: $e");
+    }
+  }
+
+  void _showSettingsDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Location Permission"),
+          content: const Text(
+              "Location permission is required to access this feature. Please grant the permission in app settings."),
+          actions: <Widget>[
+            TextButton(
+              style: const ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(
+                  Color(0XFFFEC260),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                openAppSettings();
+              },
+              child: const Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -146,22 +212,3 @@ class _LocationState extends State<Location> {
     );
   }
 }
-
-
-          // location.requestPermission().then((value) async {
-//       if (value == PermissionStatus.granted) {
-//         location.getLocation().then((value) {
-//           print(value);
-//         });
-//       }
-//     }).catchError((onError) {
-//       location.requestPermission().then((value) async {
-//         if (value == PermissionStatus.granted) {
-//           location.getLocation().then((value) {
-//             print(value);
-//           });
-//         }
-//       });
-//     });
-
-  // Location location = Location();

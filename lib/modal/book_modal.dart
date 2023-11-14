@@ -1,15 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
-
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 class Book {
   final String id;
   final String title;
   final String author;
   final String description;
   final String dateTime;
-  final String address;
+  final String addressLine;
+  final String city;
+  final String postal;
+  final String state;
   final String category;
   final String bookStatus;
   final String? imageUrl;
@@ -24,7 +24,10 @@ class Book {
     required this.author,
     required this.description,
     required this.dateTime,
-    required this.address,
+    required this.addressLine,
+    required this.city,
+    required this.postal,
+    required this.state,
     required this.category,
     required this.bookStatus,
     this.imageUrl,
@@ -39,7 +42,10 @@ class Book {
     String? author,
     String? description,
     String? dateTime,
-    String? address,
+    String? addressLine,
+    String? city,
+    String? postal,
+    String? state,
     String? category,
     String? bookStatus,
     String? imageUrl,
@@ -53,7 +59,10 @@ class Book {
       author: author ?? this.author,
       description: description ?? this.description,
       dateTime: dateTime ?? this.dateTime,
-      address: address ?? this.address,
+      addressLine: addressLine ?? this.addressLine,
+      city: city ?? this.city,
+      postal: postal ?? this.postal,
+      state: state ?? this.state,
       category: category ?? this.category,
       bookStatus: bookStatus ?? this.bookStatus,
       imageUrl: imageUrl ?? this.imageUrl,
@@ -70,7 +79,10 @@ class Book {
       'author': author,
       'description': description,
       'dateTime': dateTime,
-      'address': address,
+      'addressLine': addressLine,
+      'city': city,
+      'postal': postal,
+      'state': state,
       'category': category,
       'bookStatus': bookStatus,
       'imageUrl': imageUrl,
@@ -87,7 +99,10 @@ class Book {
       author: map['author'] as String,
       description: map['description'] as String,
       dateTime: map['dateTime'] as String,
-      address: map['address'] as String,
+      addressLine: map['addressLine'] as String,
+      city: map['city'] as String,
+      postal: map['postal'] as String,
+      state: map['state'] as String,
       category: map['category'] as String,
       bookStatus: map['bookStatus'] as String,
       imageUrl: map['imageUrl'] != null ? map['imageUrl'] as String : null,
@@ -104,7 +119,7 @@ class Book {
 
   @override
   String toString() {
-    return 'Book(id: $id, title: $title, author: $author, description: $description, dateTime: $dateTime, address: $address, category: $category, bookStatus: $bookStatus, imageUrl: $imageUrl, userId: $userId, latitude: $latitude, longitude: $longitude)';
+    return 'Book(id: $id, title: $title, author: $author, description: $description, dateTime: $dateTime, addressLine: $addressLine, city: $city, postal: $postal, state: $state, category: $category, bookStatus: $bookStatus, imageUrl: $imageUrl, userId: $userId, latitude: $latitude, longitude: $longitude)';
   }
 
   @override
@@ -117,7 +132,10 @@ class Book {
       other.author == author &&
       other.description == description &&
       other.dateTime == dateTime &&
-      other.address == address &&
+      other.addressLine == addressLine &&
+      other.city == city &&
+      other.postal == postal &&
+      other.state == state &&
       other.category == category &&
       other.bookStatus == bookStatus &&
       other.imageUrl == imageUrl &&
@@ -133,7 +151,10 @@ class Book {
       author.hashCode ^
       description.hashCode ^
       dateTime.hashCode ^
-      address.hashCode ^
+      addressLine.hashCode ^
+      city.hashCode ^
+      postal.hashCode ^
+      state.hashCode ^
       category.hashCode ^
       bookStatus.hashCode ^
       imageUrl.hashCode ^
