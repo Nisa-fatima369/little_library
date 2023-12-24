@@ -1,165 +1,145 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-class Book {
-  final String id;
-  final String title;
-  final String author;
-  final String description;
-  final String dateTime;
-  final String addressLine;
-  final String city;
-  final String postal;
-  final String state;
-  final String category;
-  final String bookStatus;
-  final String? imageUrl;
-  final String userId;
-  final double latitude;
-  final double longitude;
 
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class Book {
+  String bookId;
+  String? bookName;
+  String? bookAuthor;
+  String? bookDescription;
+  DateTime? dateTime;
+  String? addressLine;
+  Map<String, dynamic>? bookOwnerAddress;
+  String? fullAddress;
+  String? bookOwnerName;
+  String? bookOwnerId;
+  String? bookOwnerEmail;
+  String? city;
+  String? postal;
+  String? state;
+  String? bookCategory;
+  bool? bookAvailable;
+  List<String>? bookImages;
+  List<String> bookMarkedUsers = [];
+  GeoPoint? locationCoordinates;
 
   Book({
-    required this.id,
-    required this.title,
-    required this.author,
-    required this.description,
-    required this.dateTime,
-    required this.addressLine,
-    required this.city,
-    required this.postal,
-    required this.state,
-    required this.category,
-    required this.bookStatus,
-    this.imageUrl,
-    required this.userId,
-    required this.latitude,
-    required this.longitude,
+    required this.bookId,
+    this.bookName,
+    this.bookAuthor,
+    this.bookDescription,
+    this.dateTime,
+    this.addressLine,
+    this.bookOwnerAddress,
+    this.fullAddress,
+    this.bookOwnerName,
+    this.bookOwnerId,
+    this.bookOwnerEmail,
+    this.city,
+    this.postal,
+    this.state,
+    this.bookCategory,
+    this.bookAvailable,
+    this.bookImages,
+    this.bookMarkedUsers = const [],
+    this.locationCoordinates,
   });
 
   Book copyWith({
-    String? id,
-    String? title,
-    String? author,
-    String? description,
-    String? dateTime,
+    String? bookId,
+    String? bookName,
+    String? bookAuthor,
+    String? bookDescription,
+    DateTime? dateTime,
     String? addressLine,
+    Map<String, dynamic>? bookOwnerAddress,
+    String? fullAddress,
+    String? bookOwnerName,
+    String? bookOwnerId,
+    String? bookOwnerEmail,
     String? city,
     String? postal,
     String? state,
-    String? category,
-    String? bookStatus,
-    String? imageUrl,
-    String? userId,
-    double? latitude,
-    double? longitude,
+    String? bookCategory,
+    bool? bookAvailable,
+    List<String>? bookImages,
+    List<String>? bookMarkedUsers,
+    GeoPoint? locationCoordinates,
+
   }) {
     return Book(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      author: author ?? this.author,
-      description: description ?? this.description,
+      bookId: bookId ?? this.bookId,
+      bookName: bookName ?? this.bookName,
+      bookAuthor: bookAuthor ?? this.bookAuthor,
+      bookDescription: bookDescription ?? this.bookDescription,
       dateTime: dateTime ?? this.dateTime,
       addressLine: addressLine ?? this.addressLine,
+      bookOwnerAddress: bookOwnerAddress ?? this.bookOwnerAddress,
+      fullAddress: fullAddress ?? this.fullAddress,
+      bookOwnerName: bookOwnerName ?? this.bookOwnerName,
+      bookOwnerId: bookOwnerId ?? this.bookOwnerId,
+      bookOwnerEmail: bookOwnerEmail ?? this.bookOwnerEmail,
       city: city ?? this.city,
       postal: postal ?? this.postal,
       state: state ?? this.state,
-      category: category ?? this.category,
-      bookStatus: bookStatus ?? this.bookStatus,
-      imageUrl: imageUrl ?? this.imageUrl,
-      userId: userId ?? this.userId,
-      latitude: latitude ?? this.latitude,
-      longitude: longitude ?? this.longitude,
+      bookCategory: bookCategory ?? this.bookCategory,
+      bookAvailable: bookAvailable ?? this.bookAvailable,
+      bookImages: bookImages ?? this.bookImages,
+      bookMarkedUsers: bookMarkedUsers ?? this.bookMarkedUsers,
+      locationCoordinates: locationCoordinates ?? this.locationCoordinates,
     );
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'id': id,
-      'title': title,
-      'author': author,
-      'description': description,
+    return {
+      'bookId': bookId,
+      'bookName': bookName,
+      'bookAuthor': bookAuthor,
+      'bookDescription': bookDescription,
       'dateTime': dateTime,
       'addressLine': addressLine,
+      'bookOwnerAddress': bookOwnerAddress,
+      'fullAddress': fullAddress,
+      'bookOwnerName': bookOwnerName,
+      'bookOwnerId': bookOwnerId,
+      'bookOwnerEmail': bookOwnerEmail,
       'city': city,
       'postal': postal,
       'state': state,
-      'category': category,
-      'bookStatus': bookStatus,
-      'imageUrl': imageUrl,
-      'userId': userId,
-      'latitude': latitude,
-      'longitude': longitude,
+      'bookCategory': bookCategory,
+      'bookAvailable': bookAvailable,
+      'bookImages': bookImages,
+      'bookMarkedUsers': bookMarkedUsers,
+      'latitude': locationCoordinates?.latitude,
+      'longitude': locationCoordinates?.longitude,
     };
   }
 
   factory Book.fromMap(Map<String, dynamic> map) {
     return Book(
-      id: map['id'] as String,
-      title: map['title'] as String,
-      author: map['author'] as String,
-      description: map['description'] as String,
-      dateTime: map['dateTime'] as String,
-      addressLine: map['addressLine'] as String,
-      city: map['city'] as String,
-      postal: map['postal'] as String,
-      state: map['state'] as String,
-      category: map['category'] as String,
-      bookStatus: map['bookStatus'] as String,
-      imageUrl: map['imageUrl'] != null ? map['imageUrl'] as String : null,
-      userId: map['userId'] as String,
-      latitude: map['latitude'] as double,
-      longitude: map['longitude'] as double,
+      bookId: map['bookId'],
+      bookName: map['bookName'],
+      bookAuthor: map['bookAuthor'],
+      bookDescription: map['bookDescription'],
+      dateTime: map['dateTime']?.toDate(),
+      addressLine: map['addressLine'],
+      bookOwnerAddress: map['bookOwnerAddress'],
+      fullAddress: map['fullAddress'],
+      bookOwnerName: map['bookOwnerName'],
+      bookOwnerId: map['bookOwnerId'],
+      bookOwnerEmail: map['bookOwnerEmail'],
+      city: map['city'],
+      postal: map['postal'],
+      state: map['state'],
+      bookCategory: map['bookCategory'],
+      bookAvailable: map['bookAvailable'],
+      bookImages: List<String>.from(map['bookImages']),
+      bookMarkedUsers: List<String>.from(map['bookMarkedUsers']),
+      locationCoordinates: GeoPoint(map['latitude'], map['longitude']),
+      
     );
   }
 
-  String toJson() => json.encode(toMap());
-
-  factory Book.fromJson(String source) =>
-      Book.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() {
-    return 'Book(id: $id, title: $title, author: $author, description: $description, dateTime: $dateTime, addressLine: $addressLine, city: $city, postal: $postal, state: $state, category: $category, bookStatus: $bookStatus, imageUrl: $imageUrl, userId: $userId, latitude: $latitude, longitude: $longitude)';
-  }
-
-  @override
-  bool operator ==(covariant Book other) {
-    if (identical(this, other)) return true;
-  
-    return 
-      other.id == id &&
-      other.title == title &&
-      other.author == author &&
-      other.description == description &&
-      other.dateTime == dateTime &&
-      other.addressLine == addressLine &&
-      other.city == city &&
-      other.postal == postal &&
-      other.state == state &&
-      other.category == category &&
-      other.bookStatus == bookStatus &&
-      other.imageUrl == imageUrl &&
-      other.userId == userId &&
-      other.latitude == latitude &&
-      other.longitude == longitude;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-      title.hashCode ^
-      author.hashCode ^
-      description.hashCode ^
-      dateTime.hashCode ^
-      addressLine.hashCode ^
-      city.hashCode ^
-      postal.hashCode ^
-      state.hashCode ^
-      category.hashCode ^
-      bookStatus.hashCode ^
-      imageUrl.hashCode ^
-      userId.hashCode ^
-      latitude.hashCode ^
-      longitude.hashCode;
-  }
+  static fromJson(data) {}
 }

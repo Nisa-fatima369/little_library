@@ -1,14 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:little_library/config/routes.dart';
 import 'package:little_library/constants.dart';
+import 'package:little_library/modal/book_modal.dart';
+import 'package:little_library/modal/chat_modal.dart';
+import 'package:little_library/modal/user.modal.dart';
+import 'package:little_library/screens/chatPage/chat.dart';
+import 'package:little_library/screens/page_view.dart';
 import 'package:little_library/theme/colors.dart';
-import 'package:little_library/utils/lists.dart';
 import 'package:little_library/widgets/chat_button.dart';
 import 'package:little_library/widgets/status_pills.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 
 class BookDetail extends StatefulWidget {
-  const BookDetail({super.key});
+  final Book? book;
+  const BookDetail({super.key, required this.book});
 
   @override
   State<BookDetail> createState() => _BookDetailState();
@@ -18,6 +26,7 @@ class _BookDetailState extends State<BookDetail> {
   bool isBookMarked = false;
   bool isAlreadyChat = false;
   int currentIndex = 0;
+  UserModel? user;
 
   void toggleBookmark() {
     setState(() {
@@ -27,13 +36,15 @@ class _BookDetailState extends State<BookDetail> {
 
   @override
   Widget build(BuildContext context) {
-    // Size size = MediaQuery.of(context).size;
-    final CarouselController _controller = CarouselController();
+    final CarouselController controller = CarouselController();
+    final List<String> imgList = widget.book!.bookImages ?? [];
+
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const PageVieew()));
           },
           child: const Icon(
             Icons.arrow_back,
@@ -43,12 +54,49 @@ class _BookDetailState extends State<BookDetail> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20),
-            child: GestureDetector(
-              onTap: toggleBookmark,
-              child: Icon(
-                isBookMarked ? Icons.bookmark : Icons.bookmark_border,
-                color: AppColors.secondary,
-              ),
+            child: FutureBuilder(
+              future: FirebaseFirestore.instance
+                  .collection('books')
+                  .where('bookId', isEqualTo: widget.book!.bookId)
+                  .get(),
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  final map = snapshot.data.docs.first.data();
+                  final book = Book.fromMap(map);
+                  final uid = FirebaseAuth.instance.currentUser!.uid;
+                  final isBookMarked = (book.bookMarkedUsers)
+                      .contains(FirebaseAuth.instance.currentUser!.uid);
+                  return GestureDetector(
+                    onTap: () async {
+                      if (isBookMarked) {
+                        await FirebaseFirestore.instance
+                            .collection('books')
+                            .doc(widget.book!.bookId)
+                            .update({
+                          'bookMarkedUsers': FieldValue.arrayRemove([uid])
+                        }).then((value) => setState(() {}));
+                      } else {
+                        await FirebaseFirestore.instance
+                            .collection('books')
+                            .doc(widget.book!.bookId)
+                            .update({
+                          'bookMarkedUsers': FieldValue.arrayUnion([uid])
+                        }).then((value) => setState(() {}));
+                      }
+                    },
+                    child: isBookMarked
+                        ? const Icon(
+                            Icons.bookmark,
+                            color: AppColors.secondaryGradient,
+                          )
+                        : const Icon(
+                            Icons.bookmark_outline,
+                            color: AppColors.secondaryGradient,
+                          ),
+                  );
+                }
+                return const SizedBox();
+              },
             ),
           ),
         ],
@@ -59,7 +107,7 @@ class _BookDetailState extends State<BookDetail> {
             Stack(
               children: [
                 CarouselSlider(
-                  carouselController: _controller,
+                  carouselController: controller,
                   items: imgList.map((imageUrl) {
                     return SizedBox(
                       width: double.infinity,
@@ -104,10 +152,14 @@ class _BookDetailState extends State<BookDetail> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Think and Grow Rich',
+                        widget.book!.bookName ?? '',
                         style: Theme.of(context).textTheme.labelLarge,
                       ),
-                      SizedBox(width: 100, child: availableStatusPills()),
+                      SizedBox(
+                        width: 90,
+                        child: StatusPill(
+                            status: widget.book!.bookAvailable ?? false),
+                      ),
                     ],
                   ),
                   y15,
@@ -119,15 +171,30 @@ class _BookDetailState extends State<BookDetail> {
                       ),
                       x10,
                       Text(
-                        'July 20, 2022, 8:18 p.m by ',
+                        '${widget.book!.dateTime!.day}/${widget.book!.dateTime!.month}/${widget.book!.dateTime!.year}  by ',
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
-                      Text(
-                        'user01234',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(color: AppColors.blue),
+                      x10,
+                      FutureBuilder(
+                        future: FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(widget.book!.bookOwnerId)
+                            .get(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            final map = snapshot.data!.data();
+                            final user =
+                                UserModel.fromMap(map as Map<String, dynamic>);
+                            return Text(
+                              user.username!,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(color: AppColors.blue),
+                            );
+                          }
+                          return const SizedBox();
+                        },
                       ),
                     ],
                   ),
@@ -142,7 +209,7 @@ class _BookDetailState extends State<BookDetail> {
                       x10,
                       Expanded(
                         child: Text(
-                          'Kampung Pulau Penarek, 84400 Sungai Mati, Johor, Malaysia',
+                          widget.book!.fullAddress ?? '',
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.bodyMedium,
@@ -160,7 +227,7 @@ class _BookDetailState extends State<BookDetail> {
                       x10,
                       SizedBox(
                         child: Text(
-                          'Self-help',
+                          widget.book!.bookCategory ?? '',
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ),
@@ -173,7 +240,7 @@ class _BookDetailState extends State<BookDetail> {
                   ),
                   y15,
                   Text(
-                    'Napolean Hill',
+                    widget.book!.bookAuthor ?? '',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   y15,
@@ -183,7 +250,7 @@ class _BookDetailState extends State<BookDetail> {
                   ),
                   y15,
                   Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                    widget.book!.bookDescription ?? '',
                     style: Theme.of(context).textTheme.bodyMedium,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 20,
@@ -194,8 +261,71 @@ class _BookDetailState extends State<BookDetail> {
           ],
         ),
       ),
-      floatingActionButton:
-          isAlreadyChat ? viewChatButton(context) : chatButton(context),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () async {
+          if (widget.book!.bookOwnerId ==
+              FirebaseAuth.instance.currentUser!.uid) {
+             ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('You cannot chat with yourself'),
+              ),
+            );
+            return;
+          }
+          String chatId = '';
+          String sender = FirebaseAuth.instance.currentUser!.uid;
+          String? receiver = widget.book!.bookOwnerId;
+          if (sender.hashCode >= receiver.hashCode) {
+            chatId = '$sender-$receiver';
+          } else {
+            chatId = '$receiver-$sender';
+          }
+          FirebaseFirestore.instance
+              .collection('chats')
+              .doc(chatId)
+              .get()
+              .then((value) async {
+            if (value.exists) {
+              Navigator.pushNamed(context, Routes.chat,
+                  arguments:
+                      Chat.fromMap(value.data() as Map<String, dynamic>));
+            } else {
+              Chat chat = Chat(
+                chatId: chatId,
+                lastMessage: '',
+                lastMessageTime: DateTime.now(),
+                // userName: user!.username!,
+                sender: sender,
+                users: [sender, receiver!],
+                messages: [],
+              );
+              await FirebaseFirestore.instance.collection('chats').doc().set({
+                'chatId': chatId,
+                'lastMessage': '',
+                'lastMessageTime': DateTime.now(),
+                // 'userName': user!.username,
+                'sender': sender,
+                'receiver': receiver,
+                'users': [receiver, widget.book!.bookOwnerId],
+                'messages': [],
+              }).then(
+                (value) {
+                  Navigator.pushNamed(
+                    context,
+                    Routes.chat,
+                    arguments: chat,
+                  );
+                },
+              );
+            }
+          });
+        },
+        extendedPadding:
+            EdgeInsets.symmetric(horizontal: isAlreadyChat ? 20 : 30),
+        extendedIconLabelSpacing: isAlreadyChat ? 10 : 15,
+        label: Text(isAlreadyChat ? 'View Chat' : 'Chat'),
+        icon: const Icon(Icons.chat),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }

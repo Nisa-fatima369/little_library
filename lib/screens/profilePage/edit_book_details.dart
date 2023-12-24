@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:little_library/constants.dart';
 import 'package:little_library/theme/colors.dart';
 import 'package:little_library/utils/lists.dart';
-import 'package:little_library/widgets/book_container_with_delete.dart';
-import 'package:little_library/widgets/buttons.dart';
-import 'package:little_library/widgets/location_expansion.dart';
 import 'package:little_library/widgets/update_button.dart';
 
 class EditBookDetails extends StatefulWidget {
@@ -276,7 +273,7 @@ class _EditBookDetailsState extends State<EditBookDetails> {
                     style: Theme.of(context).textTheme.labelLarge,
                   ),
                   SizedBox(height: size.height * 0.005),
-                  const GalleryButton(),
+                  // const GalleryButton(),
                   SizedBox(height: size.height * 0.02),
                   
                   SizedBox(height: size.height * 0.02),

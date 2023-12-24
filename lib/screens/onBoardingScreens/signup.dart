@@ -84,7 +84,7 @@ class _SignupState extends State<Signup> {
                     hintText: 'Email',
                     icon: const Icon(Icons.email),
                     keyboardType: TextInputType.emailAddress,
-                    inputFormatters: [],
+                    inputFormatters: const [],
                     controller: _emailController,
                     validattor: (value) {
                       if (value!.isEmpty) {
@@ -101,11 +101,11 @@ class _SignupState extends State<Signup> {
                     keyboardType: TextInputType.visiblePassword,
                     icon: const Icon(Icons.lock),
                     obscureText: _isObscure,
-                    inputFormatters: [],
+                    inputFormatters: const [],
                     controller: _passwordController,
                     suffixIcon: InkWell(
                       child: Icon(
-                        _isObscure ? Icons.visibility : Icons.visibility_off,
+                        _isObscure ? Icons.visibility_off : Icons.visibility,
                         color: AppColors.secondary,
                       ),
                       onTap: () {
@@ -212,5 +212,3 @@ class _SignupState extends State<Signup> {
     );
   }
 }
-
-

@@ -1,18 +1,27 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:little_library/config/routes.dart';
 import 'package:little_library/constants.dart';
+import 'package:little_library/modal/chat_modal.dart';
 import 'package:little_library/theme/colors.dart';
-import 'package:little_library/widgets/chat_description.dart';
 
-class Chat extends StatelessWidget {
-  const Chat({super.key});
+class ChatScreen extends StatefulWidget {
+  final Chat? chat;
+  const ChatScreen({Key? key, required this.chat}) : super(key: key);
 
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  final TextEditingController textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            Navigator.pushReplacementNamed(context, Routes.contact);
           },
           child: const Icon(
             Icons.arrow_back,
@@ -34,58 +43,124 @@ class Chat extends StatelessWidget {
           ],
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                bookParameters(context),
-                y15,
-                const Messages(
-                  messageSender:
-                      'Hi may I know if you\'re available this week to collect the book?...Hi may I know if you\'re available this week to collect the book?',
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('chats')
+            .doc(widget.chat!.chatId)
+            .collection('messages')
+            .orderBy('time', descending: true)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return Column(
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  reverse: true,
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    final message = snapshot.data!.docs[index];
+                    return MessageBubble(
+                      text: message['text'],
+                      isMe: message['senderId'] == widget.chat!.sender,
+                    );
+                  },
                 ),
-                y10,
-                messageTimer(context, '11:30'),
-                y15,
-                const Messages(
-                  messageSender:
-                      'Hi sure, I free on Friday evening, shall we meet at 7pm?',
-                ),
-                y10,
-                messageTimer(context, '22:10'),
-              ],
-            ),
-          ),
-          Container(
-            color: AppColors.primary,
-            height: 90,
-            child: SizedBox(
-              height: 60,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        style: Theme.of(context).textTheme.bodyMedium,
-                        decoration: kTextField.copyWith(
-                          hintText: 'Type your message here',
+              ),
+              Container(
+                color: AppColors.primary,
+                height: 90,
+                child: SizedBox(
+                  height: 60,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: textController,
+                            cursorColor: AppColors.primaryText,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                            decoration: kTextField.copyWith(
+                              hintText: 'Type your message here',
+                            ),
+                          ),
                         ),
-                      ),
+                        x10,
+                        GestureDetector(
+                          onTap: () async {
+                            if (textController.text.isNotEmpty) {
+                              await FirebaseFirestore.instance
+                                  .collection('chats')
+                                  .doc(widget.chat!.chatId)
+                                  .collection('messages')
+                                  .add({
+                                'text': textController.text,
+                                'time': DateTime.now(),
+                                'senderId': widget.chat!.sender,
+                                'receiverId': widget.chat!.receiver,
+                                'receiverName': widget.chat!.receiver,
+                              });
+                              // FirebaseFirestore.instance
+                              //     .collection('chats')
+                              //     .doc(widget.chat!.chatId)
+                              //     .update({
+                              //   'lastMessage': textController.text,
+                              //   'lastMessageTime': Timestamp.now(),
+                              // });
+                              textController.clear();
+                            }
+                          },
+                          child: const Icon(
+                            Icons.send_outlined,
+                            color: AppColors.secondary,
+                          ),
+                        ),
+                      ],
                     ),
-                    x10,
-                    GestureDetector(
-                      onTap: () {},
-                      child: const Icon(
-                        Icons.send_outlined,
-                        color: AppColors.secondary,
-                      ),
-                    ),
-                  ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class MessageBubble extends StatelessWidget {
+  const MessageBubble({super.key, required this.text, required this.isMe});
+  final String text;
+  final bool isMe;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        crossAxisAlignment:
+            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        children: <Widget>[
+          Material(
+            elevation: 2.0,
+            borderRadius: BorderRadius.circular(10),
+            color: isMe ? AppColors.primary : AppColors.border,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 10.0,
+                horizontal: 20.0,
+              ),
+              child: Text(
+                text,
+                style: TextStyle(
+                  fontSize: 15.0,
+                  color: isMe ? Colors.white : Colors.black54,
                 ),
               ),
             ),

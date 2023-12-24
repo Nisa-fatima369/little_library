@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:little_library/modal/book_modal.dart';
+import 'package:little_library/screens/page_view.dart';
 import 'package:little_library/theme/colors.dart';
 import 'package:little_library/widgets/view_post_button.dart';
 
 class SuccessPost extends StatefulWidget {
+  final Book book;
   const SuccessPost({
     Key? key,
+    required this.book,
   }) : super(key: key);
 
   @override
@@ -20,7 +24,9 @@ class _SuccessPostState extends State<SuccessPost> {
         backgroundColor: AppColors.background2,
         leading: GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const PageVieew()));
+            setState(() {});
           },
           child: const Icon(Icons.close),
         ),
@@ -39,11 +45,10 @@ class _SuccessPostState extends State<SuccessPost> {
               scale: 0.75,
             ),
             SizedBox(height: size.height * 0.03),
-            const ViewButton(),
+            ViewButton(book: widget.book),
           ],
         ),
       ),
     );
   }
 }
-

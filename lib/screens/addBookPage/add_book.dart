@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:little_library/constants.dart';
 import 'package:little_library/modal/book_modal.dart';
 import 'package:little_library/screens/fullDialog/success_post.dart';
@@ -11,6 +13,7 @@ import 'package:little_library/utils/lists.dart';
 import 'package:little_library/widgets/buttons.dart';
 import 'package:little_library/widgets/location_expansion.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:geolocator/geolocator.dart';
 
 class AddBook extends StatefulWidget {
   final Book? book;
@@ -21,18 +24,56 @@ class AddBook extends StatefulWidget {
 
 class _AddBookState extends State<AddBook> {
   bool toggle = true;
+  bool isLoading = false;
   final nameController = TextEditingController();
   final categoryController = TextEditingController();
   final authorController = TextEditingController();
   final descriptionController = TextEditingController();
-
   final addressLineController = TextEditingController();
   final cityController = TextEditingController();
   final postalController = TextEditingController();
   final stateController = TextEditingController();
 
+  final GeoPoint locationData = const GeoPoint(0.0, 0.0);
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.book != null) {
+      nameController.text = widget.book!.bookName!;
+    }
+    if (widget.book != null) {
+      categoryController.text = widget.book!.bookCategory!;
+    }
+    if (widget.book != null) {
+      authorController.text = widget.book!.bookAuthor!;
+    }
+    if (widget.book != null) {
+      descriptionController.text = widget.book!.bookDescription!;
+    }
+    if (widget.book != null) {
+      addressLineController.text =
+          widget.book!.bookOwnerAddress!['addressLine'];
+    }
+    if (widget.book != null) {
+      cityController.text = widget.book!.bookOwnerAddress!['city'];
+    }
+    if (widget.book != null) {
+      postalController.text = widget.book!.bookOwnerAddress!['postal'];
+    }
+    if (widget.book != null) {
+      stateController.text = widget.book!.bookOwnerAddress!['state'];
+    }
+    if (widget.book != null) {
+      toggle = widget.book!.bookAvailable!;
+    }
+    // if (widget.book != null) {
+    //   bookImages = widget.book!.bookImages!.map((e) => XFile(e)).toList();
+    // }
+  }
+
   String? url;
-  File? image;
+  List<XFile> bookImages = [];
 
   Future<String?> _optionBottomSheet(
       BuildContext context, Size size, List<String> options) async {
@@ -91,7 +132,7 @@ class _AddBookState extends State<AddBook> {
             },
             child: const Icon(Icons.close),
           ),
-          title: const Text('Add New Book'),
+          title: Text(widget.book != null ? 'Update Book' : 'Add New Book'),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -126,6 +167,7 @@ class _AddBookState extends State<AddBook> {
                     ),
                     y5,
                     TextFormField(
+                      cursorColor: AppColors.primaryText,
                       controller: nameController,
                       decoration: kTextField.copyWith(
                         hintText: 'Eg. Journey to the West',
@@ -141,6 +183,7 @@ class _AddBookState extends State<AddBook> {
                     TextFormField(
                       readOnly: true,
                       enabled: true,
+                      cursorColor: AppColors.primaryText,
                       controller: categoryController,
                       decoration: kTextField.copyWith(
                         fillColor: AppColors.grey,
@@ -167,6 +210,7 @@ class _AddBookState extends State<AddBook> {
                     ),
                     y5,
                     TextFormField(
+                      cursorColor: AppColors.primaryText,
                       controller: authorController,
                       decoration: kTextField.copyWith(
                         hintText: 'Eg. Marry Jane',
@@ -195,6 +239,7 @@ class _AddBookState extends State<AddBook> {
                     ),
                     y5,
                     TextFormField(
+                      cursorColor: AppColors.primaryText,
                       maxLines: 7,
                       controller: descriptionController,
                       decoration: kTextField.copyWith(
@@ -209,67 +254,127 @@ class _AddBookState extends State<AddBook> {
                       style: Theme.of(context).textTheme.labelLarge,
                     ),
                     y5,
-                    const GalleryButton(),
+                    GalleryButton(
+                      images: bookImages,
+                    ),
                     y15,
                     GestureDetector(
                       onTap: () async {
-                        String id = FirebaseFirestore.instance
-                            .collection('book')
-                            .doc()
-                            .id;
-                       
-                        UploadTask uploadTask = FirebaseStorage.instance
-                            .ref()
-                            .child('books/${widget.book!.id}')
-                            .putFile(image!);
-                        await uploadTask.snapshotEvents.listen((event) {
-                          if (event.state == TaskState.success) {
-                            event.ref.getDownloadURL().then((url) async {
-                              await FirebaseFirestore.instance
-                                  .collection('books')
-                                  .doc(id)
-                                  .set({
-                                'id': id,
-                                'title': nameController.text,
-                                'author': authorController.text,
-                                'description': descriptionController.text,
-                                'dateTime': DateTime.now(),
+                        if (nameController.text.isNotEmpty &&
+                            categoryController.text.isNotEmpty &&
+                            authorController.text.isNotEmpty &&
+                            descriptionController.text.isNotEmpty &&
+                            addressLineController.text.isNotEmpty &&
+                            cityController.text.isNotEmpty &&
+                            postalController.text.isNotEmpty &&
+                            stateController.text.isNotEmpty &&
+                            bookImages.isNotEmpty) {
+                          final user = FirebaseAuth.instance.currentUser;
+                          try {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            List<String> urls = [];
+                            final bookRef = FirebaseFirestore.instance
+                                .collection('books')
+                                .doc();
+                            final bookId = bookRef.id;
+                            for (int i = 0; i < bookImages.length; i++) {
+                              final imageRef = FirebaseStorage.instance
+                                  .ref()
+                                  .child('books')
+                                  .child(bookId)
+                                  .child('image$i');
+
+                              await imageRef.putFile(File(bookImages[i].path));
+                              final url = await imageRef.getDownloadURL();
+                              urls.add(url);
+                            }
+                            Position position =
+                                await Geolocator.getCurrentPosition(
+                                    desiredAccuracy: LocationAccuracy.high);
+                            Book book = Book(
+                              bookId: bookId,
+                              bookMarkedUsers: [],
+                              bookName: nameController.text,
+                              bookCategory: categoryController.text,
+                              bookAuthor: authorController.text,
+                              bookDescription: descriptionController.text,
+                              bookImages: urls,
+                              bookAvailable: toggle,
+                              bookOwnerId: user!.uid,
+                              bookOwnerName: user.displayName,
+                              bookOwnerEmail: user.email,
+                              addressLine: addressLineController.text,
+                              city: cityController.text,
+                              postal: postalController.text,
+                              state: stateController.text,
+                              dateTime: DateTime.now(),
+                              fullAddress:
+                                  '${addressLineController.text} ${cityController.text}, ${stateController.text}',
+                              bookOwnerAddress: {
                                 'addressLine': addressLineController.text,
                                 'city': cityController.text,
                                 'postal': postalController.text,
                                 'state': stateController.text,
-                                'category': categoryController.text,
-                                'imageUrl': url,
-                                'userId':
-                                    FirebaseAuth.instance.currentUser!.uid,
-                              });
-                            });
+                              },
+                              locationCoordinates: GeoPoint(
+                                  position.latitude, position.longitude),
+                            );
+                            widget.book != null
+                                ? FirebaseFirestore.instance
+                                    .collection('books')
+                                    .doc(widget.book!.bookId)
+                                    .update({
+                                    'bookName': book.bookName,
+                                    'bookCategory': book.bookCategory,
+                                    'bookAuthor': book.bookAuthor,
+                                    'bookDescription': book.bookDescription,
+                                    'bookImages': book.bookImages,
+                                    'bookAvailable': book.bookAvailable,
+                                    'bookOwnerId': book.bookOwnerId,
+                                    'bookOwnerName': user.displayName,
+                                    'bookOwnerEmail': book.bookOwnerEmail,
+                                    'addressLine': book.addressLine,
+                                    'city': book.city,
+                                    'postal': book.postal,
+                                    'state': book.state,
+                                    'dateTime': book.dateTime,
+                                    'fullAddress': book.fullAddress,
+                                    'bookOwnerAddress': book.bookOwnerAddress,
+                                  }).then((value) {
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                    Navigator.pushReplacement(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return SuccessPost(book: book);
+                                    }));
+                                  })
+                                : FirebaseFirestore.instance
+                                    .collection('books')
+                                    .doc(bookId)
+                                    .set(book.toMap())
+                                    .then((value) {
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                    Navigator.pushReplacement(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return SuccessPost(book: book);
+                                    }));
+                                  });
+                          } catch (e) {
+                            print(e);
                           }
-                        });
-                        // await FirebaseFirestore.instance
-                        //     .collection('book')
-                        //     .doc(id)
-                        //     .set({
-                        //   'id': id,
-                        //   'title': nameController.text,
-                        //   'author': authorController.text,
-                        //   'description': descriptionController.text,
-                        //   'dateTime': DateTime.now(),
-                        //   'addressLine': addressLineController.text,
-                        //   'city': cityController.text,
-                        //   'postal': postalController.text,
-                        //   'state': stateController.text,
-                        //   'category': categoryController.text,
-                        //   'imageUrl': url,
-                        //   'userId': FirebaseAuth.instance.currentUser!.uid,
-                        // });
-                        showDialog(
-                          barrierColor: AppColors.background2,
-                          context: context,
-                          builder: (context) {
-                            return const SuccessPost();
-                          },
-                        );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              backgroundColor: AppColors.failure,
+                              content: Text('Please fill all the fields'),
+                            ),
+                          );
+                        }
                       },
                       child: Container(
                         height: 60,
@@ -278,13 +383,19 @@ class _AddBookState extends State<AddBook> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Center(
-                          child: Text(
-                            'ADD',
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelLarge!
-                                .copyWith(color: AppColors.secondary),
-                          ),
+                          child: isLoading
+                              ? const CircularProgressIndicator(
+                                  color: AppColors.secondary,
+                                )
+                              : Text(
+                                  widget.book != null
+                                      ? 'UPDATE BOOK'
+                                      : 'ADD BOOK',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge!
+                                      .copyWith(color: AppColors.secondary),
+                                ),
                         ),
                       ),
                     ),
@@ -299,5 +410,3 @@ class _AddBookState extends State<AddBook> {
     );
   }
 }
-
-

@@ -37,7 +37,7 @@ class _FailedPostState extends State<FailedPost> {
               scale: 0.75,
             ),
             SizedBox(height: size.height * 0.03),
-            TryAgainButton(),
+            const TryAgainButton(),
           ],
         ),
       ),

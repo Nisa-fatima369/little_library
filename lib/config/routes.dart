@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:little_library/modal/book_modal.dart';
+import 'package:little_library/modal/chat_modal.dart';
 import 'package:little_library/screens/exploreBooks/location.dart';
 import 'package:little_library/screens/page_view.dart';
 import 'package:little_library/screens/HomePage/description.dart';
@@ -67,14 +69,15 @@ class Routes {
         return PageTransition(
           duration: const Duration(milliseconds: 500),
           alignment: Alignment.center,
-          child: const AddBook(
+          child:  AddBook(
+            book: routeSettings.arguments as Book,
              ),
           type: PageTransitionType.bottomToTop,
         );
       case chat:
         return PageTransition(
             alignment: Alignment.center,
-            child: const Chat(),
+            child: ChatScreen( chat: routeSettings.arguments as Chat ),
             type: PageTransitionType.scale);
       case profile:
         return PageTransition(
@@ -84,7 +87,9 @@ class Routes {
       case description:
         return PageTransition(
             alignment: Alignment.center,
-            child: const BookDetail(),
+            child:   BookDetail(
+              book: routeSettings.arguments as Book,
+            ),
             type: PageTransitionType.scale);
       case contact:
         return PageTransition(
@@ -102,11 +107,7 @@ class Routes {
             alignment: Alignment.center,
             child: const SavedBooks(),
             type: PageTransitionType.scale);
-      case editBookDetails:
-        return PageTransition(
-            alignment: Alignment.center,
-            child: const EditBookDetails(),
-            type: PageTransitionType.scale);
+      
 
       default:
         return PageTransition(

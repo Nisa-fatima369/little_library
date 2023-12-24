@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:little_library/config/routes.dart';
+import 'package:little_library/modal/book_modal.dart';
 import 'package:little_library/theme/colors.dart';
 
 class ViewButton extends StatelessWidget {
+  final Book book;
   const ViewButton({
-    Key? key,
+    Key? key, required this.book,
   }) : super(key: key);
 
   @override
@@ -12,8 +14,8 @@ class ViewButton extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(
-          context,
-          Routes.description,
+          context, Routes.description,
+          arguments: book,
         );
       },
       child: Container(

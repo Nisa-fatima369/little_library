@@ -8,6 +8,7 @@ class Reusable extends StatelessWidget {
   final Icon icon;
   final Widget? suffixIcon;
   final bool? obscureText;
+  final Color? cursorColor;
   final bool? enable;
   final TextEditingController controller;
   final String? Function(String?)? validattor;
@@ -25,6 +26,7 @@ class Reusable extends StatelessWidget {
     this.keyboardType,
     this.inputFormatter,
     required List inputFormatters,
+    this.cursorColor,
   });
 
   @override
@@ -40,6 +42,7 @@ class Reusable extends StatelessWidget {
         ],
       ),
       child: TextFormField(
+        cursorColor: AppColors.primaryText,
         inputFormatters: [],
         keyboardType: keyboardType,
         validator: validattor,

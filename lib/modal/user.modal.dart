@@ -2,18 +2,18 @@
 import 'dart:convert';
 
 class UserModel {
-  final String username;
-  final String email;
-  final String password;
-  final String? profileUrl;
-  final String userID;
-  
+  String? username;
+  String? email;
+  String? password;
+  String? profileUrl;
+  String? userID;
+
   UserModel({
-    required this.username,
-    required this.email,
-    required this.password,
+    this.username,
+    this.email,
+    this.password,
     this.profileUrl,
-    required this.userID,
+    this.userID,
   });
 
   UserModel copyWith({
@@ -44,12 +44,12 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      username: map['username'] as String,
-      email: map['email'] as String,
-      password: map['password'] as String,
+      username: map['username'] != null ? map['username'] as String : null,
+      email: map['email'] != null ? map['email'] as String : null,
+      password: map['password'] != null ? map['password'] as String : null,
       profileUrl:
           map['profileUrl'] != null ? map['profileUrl'] as String : null,
-      userID: map['userID'] as String,
+      userID: map['userID'] != null ? map['userID'] as String : null,
     );
   }
 

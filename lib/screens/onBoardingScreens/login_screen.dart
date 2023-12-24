@@ -63,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     hintText: 'Email',
                     icon: const Icon(Icons.email),
                     keyboardType: TextInputType.emailAddress,
-                    inputFormatters: [],
+                    inputFormatters: const [],
                     controller: _emailController,
                     validattor: (value) {
                       if (value!.isEmpty) {
@@ -80,11 +80,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     keyboardType: TextInputType.visiblePassword,
                     icon: const Icon(Icons.lock),
                     obscureText: _isObscure,
-                    inputFormatters: [],
+                    inputFormatters: const [],
                     controller: _passwordController,
                     suffixIcon: IconButton(
                       icon: Icon(
-                        _isObscure ? Icons.visibility : Icons.visibility_off,
+                        _isObscure ? Icons.visibility_off : Icons.visibility,
                         color: AppColors.secondary,
                       ),
                       onPressed: () {
@@ -110,13 +110,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         backgroundColor:
                             MaterialStateProperty.all(AppColors.primary),
                       ),
-                      // onPressed: () {
-                      //   ScaffoldMessenger.of(context).showSnackBar(
-                      //     SnackBar(
-                      //       content: Text('nothing'),
-                      //     ),
-                      //   );
-                      // },
                       onPressed: _isLoading
                           ? null
                           : () async {

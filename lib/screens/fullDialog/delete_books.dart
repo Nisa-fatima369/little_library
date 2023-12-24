@@ -1,10 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:little_library/config/routes.dart';
 import 'package:little_library/constants.dart';
 import 'package:little_library/theme/colors.dart';
-import 'package:little_library/widgets/delete_book_button.dart';
 
-class DeleteBook extends StatelessWidget {
-  const DeleteBook({super.key});
+class DeleteBook extends StatefulWidget {
+  final String? book;
+  const DeleteBook({super.key, this.book});
+
+  @override
+  State<DeleteBook> createState() => _DeleteBookState();
+}
+
+class _DeleteBookState extends State<DeleteBook> {
+  bool isBookUploaded = false;
+  bool isBookDeleted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +23,8 @@ class DeleteBook extends StatelessWidget {
         backgroundColor: AppColors.background2,
         leading: GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            Navigator.popAndPushNamed(context, Routes.myBooks);
+            setState(() {});
           },
           child: const Icon(Icons.close),
         ),
@@ -40,7 +51,41 @@ class DeleteBook extends StatelessWidget {
                   .copyWith(color: AppColors.placeholderText),
             ),
             y30,
-            const DeleteBookButton(),
+            GestureDetector(
+              onTap: () async {
+                try {
+                  await FirebaseFirestore.instance
+                      .collection('books')
+                      .doc(widget.book)
+                      .delete();
+                } catch (e) {
+                  print(e.toString());
+                }
+                Navigator.popAndPushNamed(context, Routes.myBooks);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Book deleted successfully!'),
+                  ),
+                );
+                setState(() {});
+              },
+              child: Container(
+                height: 60,
+                decoration: BoxDecoration(
+                  color: AppColors.failure,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    'CONFIRM DELETE',
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelLarge!
+                        .copyWith(color: AppColors.background2),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

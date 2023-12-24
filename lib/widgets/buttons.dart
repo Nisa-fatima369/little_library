@@ -1,15 +1,20 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
 import 'package:little_library/constants.dart';
 import 'package:little_library/theme/colors.dart';
 import 'package:little_library/widgets/book_container_with_delete.dart';
 
 class GalleryButton extends StatefulWidget {
+  final List<XFile> images;
+
   const GalleryButton({
-    super.key,
-  });
+    Key? key,
+    required this.images,
+  }) : super(key: key);
 
   @override
   State<GalleryButton> createState() => _GalleryButtonState();
@@ -17,7 +22,6 @@ class GalleryButton extends StatefulWidget {
 
 class _GalleryButtonState extends State<GalleryButton> {
   File? image;
-  List<XFile> images = [];
 
   Future<void> _pickImages() async {
     List<XFile>? pickedImages = await ImagePicker().pickMultipleMedia(
@@ -26,14 +30,14 @@ class _GalleryButtonState extends State<GalleryButton> {
     );
     if (pickedImages != null) {
       setState(() {
-        images.addAll(pickedImages);
+        widget.images.addAll(pickedImages);
       });
     }
   }
 
   void _deleteImage(int index) {
     setState(() {
-      images.removeAt(index);
+      widget.images.removeAt(index);
     });
   }
 
@@ -73,9 +77,9 @@ class _GalleryButtonState extends State<GalleryButton> {
           ),
         ),
         y20,
-        images.isNotEmpty
+        widget.images.isNotEmpty
             ? Wrap(
-                children: images.asMap().entries.map((entry) {
+                children: widget.images.asMap().entries.map((entry) {
                   final int index = entry.key;
                   final XFile image = entry.value;
 

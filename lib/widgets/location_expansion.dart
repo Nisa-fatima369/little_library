@@ -10,10 +10,12 @@ class LocationExpansionTile extends StatefulWidget {
   TextEditingController cityController = TextEditingController();
   TextEditingController postalController = TextEditingController();
   TextEditingController stateController = TextEditingController();
-    LocationExpansionTile({
+  LocationExpansionTile({
     super.key,
     required this.addressLineController,
-    required this.cityController,required this.postalController,required this.stateController,
+    required this.cityController,
+    required this.postalController,
+    required this.stateController,
   });
 
   @override
@@ -79,8 +81,8 @@ class _LocationExpansionTileState extends State<LocationExpansionTile> {
       final state = addressInfo.administrativeArea;
 
       widget.addressLineController.text = line1 ?? '';
-     widget. cityController.text = city ?? '';
-     widget. postalController.text = postal ?? '';
+      widget.cityController.text = city ?? '';
+      widget.postalController.text = postal ?? '';
       widget.stateController.text = state ?? '';
 
       setState(() {});
@@ -111,7 +113,7 @@ class _LocationExpansionTileState extends State<LocationExpansionTile> {
                     isLocationEnabled = value;
                     if (isLocationEnabled) {
                       _requestLocationPermission();
-                    } 
+                    }
                   });
                 },
               ),
@@ -142,7 +144,8 @@ class _LocationExpansionTileState extends State<LocationExpansionTile> {
               ),
               y5,
               TextFormField(
-                controller: widget. addressLineController,
+                cursorColor: AppColors.primaryText,
+                controller: widget.addressLineController,
                 decoration: kTextField.copyWith(
                   hintText: 'Street, Address, Company Name, C/O',
                   fillColor: AppColors.grey,
@@ -158,7 +161,8 @@ class _LocationExpansionTileState extends State<LocationExpansionTile> {
               ),
               y5,
               TextFormField(
-                controller:widget. cityController,
+                cursorColor: AppColors.primaryText,
+                controller: widget.cityController,
                 decoration: kTextField.copyWith(
                   hintText: 'Eg. Desa Tasik',
                   fillColor: AppColors.grey,
@@ -174,7 +178,8 @@ class _LocationExpansionTileState extends State<LocationExpansionTile> {
               ),
               y5,
               TextFormField(
-                controller:widget. postalController,
+                cursorColor: AppColors.primaryText,
+                controller: widget.postalController,
                 decoration: kTextField.copyWith(
                   hintText: 'Eg. 544440',
                   fillColor: AppColors.grey,
@@ -190,7 +195,8 @@ class _LocationExpansionTileState extends State<LocationExpansionTile> {
               ),
               y5,
               TextFormField(
-                controller:widget. stateController,
+                cursorColor: AppColors.primaryText,
+                controller: widget.stateController,
                 decoration: kTextField.copyWith(
                   hintText: 'Eg. Kuala Lumpur',
                   fillColor: AppColors.grey,

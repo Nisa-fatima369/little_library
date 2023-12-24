@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:little_library/screens/onBoardingScreens/login_screen.dart';
 import 'package:little_library/theme/colors.dart';
 
 class LogoutButton extends StatelessWidget {
@@ -12,7 +13,10 @@ class LogoutButton extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         await FirebaseAuth.instance.signOut();
-        Navigator.pop(context);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
       },
       child: Container(
         height: 60,
