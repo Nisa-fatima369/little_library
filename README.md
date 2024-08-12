@@ -52,7 +52,7 @@ https://www.figma.com/file/iL67dKdP6NIz5crRR8Wrmk/Little-Library?type=design&nod
 
  
 ## 🔑 License
-- This project is licensed under the MIT License - see the [LICENSE](LICENCE.md.md) file for details
+- This project is licensed under the MIT License - see the [LICENSE](LICENCE) file for details
  
 ## 🧑 Author
  
